@@ -1,0 +1,154 @@
+flowchart TB
+    P["EDITOR VISUAL DE IMAGENS<br/>344h de atividades detalhadas"]
+
+    P --> AP["ANTEPROJETO<br/>104h"]
+    P --> T1["TCC I<br/>132h"]
+    P --> T2["TCC II<br/>108h"]
+
+    %% ========== ANTEPROJETO ==========
+    AP --> PES["1. PESQUISAS<br/>62h"]
+    AP --> ARQ["2. ARQUITETURA<br/>42h"]
+
+    PES --> P1["Escopo — 8h"]
+    P1 --> P11["Delimitar funcionalidades — 4h<br/>Iago"]
+    P1 --> P12["Registrar exclusões e restrições — 4h<br/>Arthur"]
+
+    PES --> P2["Linguagem natural e IA — 20h"]
+    P2 --> P21["Pesquisar soluções existentes — 6h<br/>Arthur"]
+    P2 --> P22["Identificar comandos de edição — 6h<br/>Iago"]
+    P2 --> P23["Comparar alternativas de integração — 4h<br/>Arthur"]
+    P2 --> P24["Documentar resultados — 4h<br/>Iago"]
+
+    PES --> P3["Estudo do Remotion — 16h"]
+    P3 --> P31["Estudar documentação e APIs — 6h<br/>Arthur"]
+    P3 --> P32["Executar exemplo básico — 6h<br/>Arthur"]
+    P3 --> P33["Registrar recursos e limitações — 4h<br/>Iago"]
+
+    PES --> P4["Requisitos — 12h"]
+    P4 --> P41["Levantar requisitos funcionais — 6h<br/>Iago"]
+    P4 --> P42["Definir requisitos não funcionais — 4h<br/>Arthur"]
+    P4 --> P43["Revisar e priorizar requisitos — 2h<br/>Iago"]
+
+    PES --> P5["Casos de uso — 6h"]
+    P5 --> P51["Identificar atores e casos — 2h<br/>Iago"]
+    P5 --> P52["Desenhar diagrama — 4h<br/>Arthur"]
+
+    ARQ --> A1["Módulos do editor — 10h"]
+    A1 --> A11["Identificar módulos — 4h<br/>Arthur"]
+    A1 --> A12["Definir responsabilidades — 4h<br/>Arthur"]
+    A1 --> A13["Revisar dependências — 2h<br/>Iago"]
+
+    ARQ --> A2["Organização da interface — 12h"]
+    A2 --> A21["Desenhar wireframe — 4h<br/>Iago"]
+    A2 --> A22["Definir painéis e ferramentas — 4h<br/>Iago"]
+    A2 --> A23["Definir fluxo de interação — 4h<br/>Arthur"]
+
+    ARQ --> A3["Comunicação com Remotion — 10h"]
+    A3 --> A31["Definir estrutura da composição — 4h<br/>Arthur"]
+    A3 --> A32["Definir interface de integração — 4h<br/>Arthur"]
+    A3 --> A33["Documentar fluxo de dados — 2h<br/>Iago"]
+
+    ARQ --> A4["Atualização do estado — 10h"]
+    A4 --> A41["Definir modelo de estado — 4h<br/>Arthur"]
+    A4 --> A42["Definir operações de alteração — 4h<br/>Arthur"]
+    A4 --> A43["Validar sincronização prevista — 2h<br/>Iago"]
+
+    %% ========== TCC I ==========
+    T1 --> AMB["3. PREPARAÇÃO DO AMBIENTE<br/>14h"]
+    T1 --> DEV["4. IMPLEMENTAÇÃO<br/>118h"]
+
+    AMB --> E1["Ambiente — 8h"]
+    E1 --> E11["Criar repositório e projeto — 4h<br/>Arthur"]
+    E1 --> E12["Instalar dependências e testar — 4h<br/>Arthur"]
+
+    AMB --> E2["Contêineres — 6h"]
+    E2 --> E21["Criar configuração de contêiner — 4h<br/>Arthur"]
+    E2 --> E22["Validar execução e documentar — 2h<br/>Iago"]
+
+    DEV --> D1["Área de composição — 24h"]
+    D1 --> D11["Criar estrutura do canvas — 6h<br/>Iago"]
+    D1 --> D12["Implementar layout responsivo — 6h<br/>Iago"]
+    D1 --> D13["Implementar área de prévia — 6h<br/>Arthur"]
+    D1 --> D14["Testar interação e layout — 6h<br/>Iago"]
+
+    DEV --> D2["Elementos editáveis — 20h"]
+    D2 --> D21["Definir propriedades dos elementos — 4h<br/>Arthur"]
+    D2 --> D22["Implementar elemento de texto — 6h<br/>Arthur"]
+    D2 --> D23["Implementar elemento de imagem — 6h<br/>Arthur"]
+    D2 --> D24["Testar criação e seleção — 4h<br/>Iago"]
+
+    DEV --> D3["Controles de edição — 20h"]
+    D3 --> D31["Implementar movimentação — 6h<br/>Iago"]
+    D3 --> D32["Implementar redimensionamento — 6h<br/>Arthur"]
+    D3 --> D33["Implementar rotação — 4h<br/>Arthur"]
+    D3 --> D34["Implementar controles de propriedades — 4h<br/>Iago"]
+
+    DEV --> D4["Linguagem natural — 30h"]
+    D4 --> D41["Definir comandos suportados — 6h<br/>Iago"]
+    D4 --> D42["Implementar entrada textual — 4h<br/>Iago"]
+    D4 --> D43["Implementar interpretação — 8h<br/>Arthur"]
+    D4 --> D44["Converter comandos em operações — 6h<br/>Arthur"]
+    D4 --> D45["Testar comandos e erros — 6h<br/>Iago"]
+
+    DEV --> D5["Visualização e renderização — 24h"]
+    D5 --> D51["Converter estado em composição — 6h<br/>Arthur"]
+    D5 --> D52["Integrar prévia do Remotion — 6h<br/>Arthur"]
+    D5 --> D53["Implementar atualização da prévia — 6h<br/>Arthur"]
+    D5 --> D54["Testar renderização e exportação — 6h<br/>Iago"]
+
+    %% ========== TCC II ==========
+    T2 --> DOC["5. DOCUMENTAÇÃO<br/>74h"]
+    T2 --> FIN["6. FINALIZAÇÃO<br/>34h"]
+
+    DOC --> C1["Pré-textuais — 8h"]
+    C1 --> C11["Preparar identificação e estrutura — 4h<br/>Iago"]
+    C1 --> C12["Redigir resumo e palavras-chave — 4h<br/>Iago"]
+
+    DOC --> C2["Elementos textuais — 40h"]
+    C2 --> C21["Redigir introdução — 6h<br/>Iago"]
+    C2 --> C22["Redigir justificativa e objetivos — 6h<br/>Iago"]
+    C2 --> C23["Redigir fundamentação teórica — 8h<br/>Iago"]
+    C2 --> C24["Descrever metodologia — 6h<br/>Iago"]
+    C2 --> C25["Documentar implementação — 8h<br/>Arthur"]
+    C2 --> C26["Redigir resultados e conclusão — 6h<br/>Iago"]
+
+    DOC --> C3["Pós-textuais — 10h"]
+    C3 --> C31["Organizar referências — 6h<br/>Arthur"]
+    C3 --> C32["Preparar apêndices e anexos — 4h<br/>Iago"]
+
+    DOC --> C4["Revisão e formatação — 16h"]
+    C4 --> C41["Revisar coerência e linguagem — 6h<br/>Iago"]
+    C4 --> C42["Verificar citações e referências — 4h<br/>Arthur"]
+    C4 --> C43["Aplicar formatação institucional — 4h<br/>Iago"]
+    C4 --> C44["Conferir versão final — 2h<br/>Arthur"]
+
+    FIN --> F1["Revisão do sistema — 8h"]
+    F1 --> F11["Executar testes finais — 4h<br/>Arthur"]
+    F1 --> F12["Corrigir falhas prioritárias — 4h<br/>Arthur"]
+
+    FIN --> F2["Organização da versão final — 12h"]
+    F2 --> F21["Limpar e organizar código — 4h<br/>Arthur"]
+    F2 --> F22["Preparar instruções de execução — 4h<br/>Iago"]
+    F2 --> F23["Validar entrega e arquivos — 4h<br/>Arthur"]
+
+    FIN --> F3["Apresentação — 10h"]
+    F3 --> F31["Preparar roteiro dos slides — 4h<br/>Iago"]
+    F3 --> F32["Montar slides — 4h<br/>Iago"]
+    F3 --> F33["Ensaiar demonstração — 2h<br/>Arthur"]
+
+    FIN --> F4["Defesa — 4h"]
+    F4 --> F41["Apresentar e demonstrar — 2h<br/>Iago"]
+    F4 --> F42["Apresentar e responder à banca — 2h<br/>Arthur"]
+
+    %% ========== ESTILOS ==========
+    %% "default" pinta todas as tarefas (folhas); as demais classes sobrescrevem
+    classDef default fill:#dcfce7,color:#14532d,stroke:#86cda0
+    classDef root fill:#334155,color:#fff,stroke:#1e293b
+    classDef phase fill:#b8acfb,color:#231266,stroke:#8a7be0
+    classDef package fill:#9ce6ff,color:#1c4657,stroke:#2c97bb
+    classDef group fill:#ffe86d,color:#574900,stroke:#a28e26
+
+    class P root
+    class AP,T1,T2 phase
+    class PES,ARQ,AMB,DEV,DOC,FIN package
+    class P1,P2,P3,P4,P5,A1,A2,A3,A4,E1,E2,D1,D2,D3,D4,D5,C1,C2,C3,C4,F1,F2,F3,F4 group

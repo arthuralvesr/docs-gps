@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor Visual de Imagens — Plano do Projeto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --g900: #0d652d;
+    --g700: #188038;
+    --g600: #1e8e3e;
+    --g500: #34a853;
+    --g300: #81c995;
+    --g100: #ceead6;
+    --g50:  #e6f4ea;
+    --ink: #202124;
+    --ink-2: #3c4043;
+    --muted: #5f6368;
+    --line: #dadce0;
+    --bg: #f8faf9;
+    --card: #ffffff;
+    --arthur: #1a73e8; --arthur-bg: #e8f0fe; --arthur-fg: #1967d2;
+    --iago: #e8710a;   --iago-bg: #feefe3;   --iago-fg: #b06000;
+    --head: "Google Sans", "Product Sans", Roboto, Arial, sans-serif;
+    --body: Roboto, Arial, sans-serif;
+    --mono: "Roboto Mono", ui-monospace, monospace;
+    --radius: 16px;
+    --shadow: 0 1px 2px rgba(60,64,67,.12), 0 2px 6px rgba(60,64,67,.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, h4 { font-family: var(--head); margin: 0; letter-spacing: -.01em; }
+  .wrap { width: min(1200px, 100% - 32px); margin: 0 auto; }
+
+  /* ---------- Barra superior ---------- */
+  .bar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; align-items: center; gap: 16px; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 500 17px var(--head); white-space: nowrap; }
+  .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--g700); display: grid; place-items: center; flex: none; }
+  .bar nav { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+  .bar nav::-webkit-scrollbar { display: none; }
+  .bar nav a { color: var(--ink-2); text-decoration: none; font: 500 14px var(--head); padding: 7px 12px; border-radius: 18px; white-space: nowrap; }
+  .bar nav a:hover { background: var(--g50); color: var(--g900); }
+  .bar nav a.on { background: var(--g50); color: var(--g700); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 18px; border-radius: 19px; border: 0; background: var(--g700); color: #fff;
+         font: 500 14px var(--head); cursor: pointer; white-space: nowrap; flex: none; }
+  .btn:hover { background: var(--g900); }
+  .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ---------- Capa ---------- */
+  .hero { background: var(--g700); color: #fff; position: relative; overflow: hidden; padding: 72px 0 120px; }
+  .hero::before { content: ""; position: absolute; inset: 0; opacity: .13;
+                  background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 96px 32px;
+                  mask-image: linear-gradient(100deg, transparent 20%, #000 75%); -webkit-mask-image: linear-gradient(100deg, transparent 20%, #000 75%); }
+  .hero .wrap { position: relative; }
+  .eyebrow { font: 500 13px var(--head); letter-spacing: .08em; text-transform: uppercase; }
+  .hero .eyebrow { color: var(--g100); }
+  .hero h1 { font-size: clamp(36px, 6vw, 64px); line-height: 1.05; margin: 14px 0 18px; font-weight: 500; }
+  .hero p.lead { font-size: clamp(17px, 2vw, 20px); max-width: 720px; margin: 0; color: #e6f4ea; }
+  .team { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+  .member { display: inline-flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; border-radius: 24px; background: rgba(255,255,255,.14); font: 500 15px var(--head); }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 500 14px var(--head); flex: none; }
+  .kpis { position: relative; margin-top: -72px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .kpi { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 18px 16px; }
+  .kpi .v { font: 500 32px/1.1 var(--head); color: var(--g700); }
+  .kpi .v small { font-size: 18px; margin-left: 2px; }
+  .kpi .k { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- Seções ---------- */
+  section.s { padding: 72px 0 8px; }
+  .s-head { margin-bottom: 28px; max-width: 760px; }
+  .s-head .eyebrow { color: var(--g700); }
+  .s-head h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 500; margin-top: 6px; }
+  .s-head p { color: var(--muted); margin: 8px 0 0; }
+  .fold > summary { display: block; list-style: none; cursor: pointer; }
+  .fold > summary::-webkit-details-marker { display: none; }
+  .fold:not([open]) > summary { margin-bottom: 0; }
+  .fold > summary h2 { display: flex; align-items: center; gap: 14px; }
+  .fold > summary h2::after { content: ""; width: 10px; height: 10px; border: solid var(--g700); border-width: 0 2.5px 2.5px 0; transform: translateY(-4px) rotate(45deg); transition: transform .2s; }
+  .fold[open] > summary h2::after { transform: translateY(3px) rotate(-135deg); }
+  .fold > summary:hover h2 { color: var(--g700); }
+  .fold > summary .sub { display: block; color: var(--muted); margin-top: 8px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+
+  /* Fases */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .phase { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+  .tag { display: inline-block; font: 500 12px var(--head); letter-spacing: .06em; text-transform: uppercase; color: var(--g700); background: var(--g50); border-radius: 12px; padding: 3px 10px; }
+  .phase h3 { font-size: 24px; font-weight: 500; margin-top: 10px; }
+  .phase .big { font: 500 44px/1 var(--head); color: var(--g700); }
+  .phase .big small { font-size: 22px; }
+  .meter { height: 8px; border-radius: 4px; background: var(--g50); overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--g500); border-radius: 4px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+  .pk-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .pk-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .pk-list b { font-weight: 500; color: var(--g900); white-space: nowrap; }
+  .split { display: flex; height: 26px; border-radius: 6px; overflow: hidden; font: 500 12px/26px var(--head); color: #fff; }
+  .split span { text-align: center; white-space: nowrap; overflow: hidden; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+
+  /* Árvore da EAP */
+  .tree-card { padding: 28px 20px 24px; overflow-x: auto; }
+  .tree { min-width: 1080px; }
+  .tree ul { display: flex; justify-content: center; margin: 0; padding: 22px 0 0; position: relative; list-style: none; }
+  .tree li { flex: 1; position: relative; padding: 22px 6px 0; text-align: center; list-style: none; }
+  .tree li::before, .tree li::after { content: ""; position: absolute; top: 0; right: 50%; width: 50%; height: 22px; border-top: 2px solid var(--g300); }
+  .tree li::after { right: auto; left: 50%; border-left: 2px solid var(--g300); }
+  .tree li:only-child::before, .tree li:only-child::after { display: none; }
+  .tree li:only-child { padding-top: 0; }
+  .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+  .tree li:last-child::before { border-right: 2px solid var(--g300); border-radius: 0 8px 0 0; }
+  .tree li:first-child::after { border-radius: 8px 0 0 0; }
+  .tree ul ul::before { content: ""; position: absolute; top: 0; left: 50%; height: 22px; border-left: 2px solid var(--g300); }
+  .tree > ul { padding-top: 0; }
+  .node { display: inline-block; border-radius: 10px; padding: 10px 14px; font: 500 14px/1.3 var(--head); min-width: 120px; }
+  .node small { display: block; font: 400 12px var(--body); opacity: .85; margin-top: 2px; }
+  .n0 { background: var(--g900); color: #fff; font-size: 17px; padding: 12px 22px; }
+  .n1 { background: var(--g700); color: #fff; font-size: 15px; }
+  .n2 { background: var(--g500); color: #fff; }
+  .n2 { display: block; }
+  .tree .groups { list-style: none; margin: 0 0 0 14px; padding: 10px 0 0 14px; border-left: 2px solid var(--g300); text-align: left; display: block !important; }
+  .groups::before { display: none !important; }
+  .groups li { padding: 0; margin: 0 0 8px; flex: none; text-align: left; }
+  .groups li::before { content: ""; display: block !important; position: absolute; left: -14px; top: 50%; width: 12px; height: 0; border-top: 2px solid var(--g300) !important; border-right: 0 !important; border-radius: 0 !important; }
+  .groups li::after { display: none !important; }
+  .n3 { display: block; background: var(--g50); color: var(--g900); border: 1px solid var(--g100); font-size: 13px; padding: 7px 10px; min-width: 0; text-align: left; }
+  .n3 small { display: block; margin-top: 1px; }
+  .groups li:last-child { margin-bottom: 0; }
+
+  /* Detalhamento */
+  .phase-band { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 36px 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--g700); }
+  .phase-band h3 { font-size: 24px; font-weight: 500; color: var(--g900); }
+  .phase-band h3 .tag { margin-right: 10px; vertical-align: 4px; }
+  .pk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: start; }
+  .pkcard { overflow: hidden; }
+  .pkcard > header { display: flex; gap: 14px; align-items: center; padding: 18px 20px; background: var(--g50); border-bottom: 1px solid var(--g100); }
+  .pknum { width: 40px; height: 40px; border-radius: 10px; background: var(--g700); color: #fff; display: grid; place-items: center; font: 500 18px var(--head); flex: none; }
+  .pkcard h4 { font-size: 19px; font-weight: 500; }
+  .pkcard header .meta { font-size: 13px; color: var(--muted); }
+  .pkcard header .split { margin-left: auto; width: 140px; height: 22px; line-height: 22px; flex: none; }
+  .grp { padding: 14px 20px 6px; }
+  .grp + .grp { border-top: 1px solid var(--line); }
+  .grp-h { display: flex; align-items: baseline; gap: 10px; font: 500 15px var(--head); color: var(--g900); margin-bottom: 6px; }
+  .grp-h .h { margin-left: auto; font-size: 14px; color: var(--g700); white-space: nowrap; }
+  .code { font: 500 12px var(--mono); color: var(--muted); min-width: 40px; }
+  .tasks { list-style: none; margin: 0; padding: 0; }
+  .tasks li { display: grid; grid-template-columns: 48px 1fr auto 44px; align-items: center; gap: 10px; padding: 6px 0; font-size: 14.5px; border-top: 1px dashed #e8eaed; }
+  .tasks li:first-child { border-top: 0; }
+  .tasks .th { text-align: right; font-weight: 500; color: var(--ink-2); white-space: nowrap; }
+  .chip { display: inline-block; padding: 1px 10px; border-radius: 12px; font: 500 12px/20px var(--head); white-space: nowrap; }
+  .warn { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #f9ab00; color: #fff; font: 700 12px var(--body); margin-left: 6px; vertical-align: 1px; cursor: help; }
+
+  /* Equipe */
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .person { padding: 24px; }
+  .person-top { display: flex; align-items: center; gap: 16px; }
+  .person-top .avatar { width: 56px; height: 56px; font-size: 24px; }
+  .person h3 { font-size: 26px; font-weight: 500; }
+  .person .big { font: 500 40px/1 var(--head); margin-left: auto; text-align: right; }
+  .person .big small { font-size: 22px; }
+  .person .big .of { display: block; font: 400 13px var(--body); color: var(--muted); margin-top: 6px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+  .stat { background: var(--bg); border-radius: 12px; padding: 12px; }
+  .stat b { display: block; font: 500 22px var(--head); }
+  .stat span { font-size: 12.5px; color: var(--muted); }
+  .rows { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: 110px 1fr 50px; gap: 10px; align-items: center; font-size: 14px; }
+  .row .meter { height: 10px; background: #f1f3f4; }
+  .row b { text-align: right; font-weight: 500; }
+  .chart-card { padding: 22px 22px 12px; margin-top: 16px; }
+  .chart-card h3 { font-size: 18px; font-weight: 500; }
+  .chart-card svg { width: 100%; height: auto; display: block; margin-top: 8px; }
+  .lists { margin-top: 16px; }
+  .plist { padding: 22px; }
+  .plist h3 { font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+  .plist h4 { font: 500 13px var(--head); letter-spacing: .06em; text-transform: uppercase; color: var(--g700); margin: 18px 0 6px; }
+  .plist ol { margin: 0; padding: 0; list-style: none; columns: 1; }
+  .plist li { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px solid #f1f3f4; font-size: 14px; }
+  .plist li span:last-child { color: var(--muted); white-space: nowrap; }
+  .callout { display: flex; gap: 14px; padding: 16px 18px; border-radius: 12px; background: #fef7e0; border: 1px solid #fde293; color: #594300; margin-top: 16px; font-size: 15px; }
+  .callout .warn { width: 24px; height: 24px; font-size: 14px; margin: 0; flex: none; }
+
+  /* Cronograma (Gantt) */
+  .gctl { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; padding: 16px 20px; }
+  .gctl label { display: grid; gap: 4px; font: 500 12px var(--head); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+  .gctl input[type=date], .gctl input[type=number] { height: 36px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; font: 15px var(--body); color: var(--ink); background: #fff; }
+  .gctl input[type=number] { width: 96px; }
+  .gctl input:focus { outline: 2px solid var(--g300); border-color: var(--g500); }
+  .gctl label.chk { display: flex; align-items: center; gap: 8px; height: 36px; text-transform: none; letter-spacing: 0; font: 400 14px var(--body); color: var(--ink-2); cursor: pointer; }
+  .gctl label.chk input { width: 16px; height: 16px; accent-color: var(--g700); margin: 0; }
+  .gctl .legend { margin-left: auto; align-self: center; }
+  .gsum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  .gs { padding: 16px 18px; }
+  .gs h3 { font-size: 18px; font-weight: 500; margin-top: 8px; }
+  .gs .gd { font: 500 15px var(--head); color: var(--g900); margin-top: 6px; }
+  .gs.tot { background: var(--g700); border-color: var(--g700); color: #fff; }
+  .gs.tot .tag { background: rgba(255,255,255,.18); color: #fff; }
+  .gs.tot .gd { color: #fff; font-size: 22px; }
+  .gs.tot .muted { color: var(--g100); }
+  .gantt-card { overflow: hidden; }
+  .gscroll { overflow: auto; max-height: 78vh; cursor: grab; user-select: none; -webkit-user-select: none; }
+  .gscroll.dragging { cursor: grabbing; }
+  .gantt { --lw: 330px; --wk: 40px; position: relative; width: calc(var(--lw) + var(--tw)); font-size: 13px; }
+  .grow { display: grid; grid-template-columns: var(--lw) var(--tw); height: 26px; }
+  .glabel { position: sticky; left: 0; z-index: 2; background: #fff; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-right: 1px solid var(--line); border-bottom: 1px solid #f1f3f4; white-space: nowrap; min-width: 0; }
+  .glabel .n { overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+  .glabel .gh { color: var(--muted); font-size: 12px; flex: none; }
+  .glabel .code { min-width: 0; flex: none; }
+  .gtrack { position: relative; border-bottom: 1px solid #f1f3f4; background-image: repeating-linear-gradient(to right, transparent 0 calc(var(--wk) - 1px), #eef0f1 calc(var(--wk) - 1px) var(--wk)); }
+  .ghead { position: sticky; top: 0; z-index: 4; background: #fff; }
+  .ghead .grow { height: 24px; }
+  .ghead .glabel { z-index: 5; font: 500 12px var(--head); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+  .ghead .gtrack { display: flex; background: #fff; border-bottom: 1px solid var(--line); }
+  .ghead .gtrack span { flex: none; overflow: hidden; white-space: nowrap; border-left: 1px solid var(--line); padding: 0 6px; line-height: 23px; }
+  .gmonths span { font: 500 12px var(--head); color: var(--g900); text-transform: capitalize; }
+  .gweeks span { font: 11px var(--mono); color: var(--muted); padding: 0 !important; text-align: center; }
+  .gph .glabel, .gph .gtrack { background-color: var(--g50); }
+  .gph .glabel { font: 500 14px var(--head); color: var(--g900); }
+  .gpk .glabel { font: 500 13.5px var(--head); color: var(--ink); padding-left: 22px; }
+  .ggr .glabel { font: 500 13px var(--body); color: var(--ink-2); padding-left: 32px; }
+  .gtk .glabel { color: var(--ink-2); padding-left: 44px; }
+  .gtk .code { font-size: 11px; }
+  .gantt.notasks .gtk { display: none; }
+  .gb { position: absolute; top: 50%; transform: translateY(-50%); border-radius: 4px; }
+  .gb-ph { height: 12px; background: var(--g900); border-radius: 2px; }
+  .gb-pk { height: 10px; background: var(--g500); border-radius: 2px; }
+  .gb-gr { height: 8px; background: var(--g300); }
+  .gb-tk { height: 16px; }
+  .gms { position: absolute; top: 50%; width: 13px; height: 13px; background: #f9ab00; border: 2px solid #fff; transform: translate(-50%, -50%) rotate(45deg); box-shadow: 0 0 0 1px #e37400; }
+  .gt { position: absolute; top: 50%; transform: translateY(-50%); font-size: 11.5px; color: var(--muted); white-space: nowrap; pointer-events: none; }
+  .gph .gt { font: 500 12px var(--head); color: var(--g900); }
+  .gtoday { position: absolute; top: 48px; bottom: 0; width: 0; border-left: 2px solid #d93025; z-index: 1; pointer-events: none; }
+  .gtoday span { position: absolute; top: 2px; left: 4px; font: 500 11px var(--head); color: #fff; background: #d93025; border-radius: 4px; padding: 0 5px; }
+  .gnote { margin: 12px 0 0; }
+
+  footer { margin-top: 72px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 1000px) {
+    .kpis { grid-template-columns: repeat(3, 1fr); }
+    .grid3, .pk-grid, .grid2 { grid-template-columns: 1fr; }
+    .gsum { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .bar nav { display: none; }
+    .btn .lbl { display: none; }
+    .btn { padding: 0 11px; margin-left: auto; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding: 48px 0 104px; }
+    .tasks li { grid-template-columns: 1fr auto 40px; }
+    .tasks li .code { display: none; }
+    .pkcard header { flex-wrap: wrap; }
+    .pkcard header .split { width: 100%; margin-left: 0; }
+    .stats { grid-template-columns: 1fr 1fr 1fr; }
+    .person .big { font-size: 32px; }
+    .gantt { --lw: 190px; }
+    .gpk .glabel, .ggr .glabel, .gtk .glabel { padding-left: 12px; }
+    .gctl .legend { margin-left: 0; }
+  }
+  @media print {
+    .bar { display: none; }
+    body { background: #fff; }
+    .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card, .kpi { break-inside: avoid; box-shadow: none; }
+    section.s { padding-top: 32px; }
+    .gscroll { max-height: none; overflow: visible; }
+    .gph .glabel, .gph .gtrack, .gb, .gms, .gtoday span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#inicio">
+      <span class="mark"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="#fff" d="M4 4h16v16H4z" opacity=".0"/><path fill="none" stroke="#fff" stroke-width="2" d="M5 5h14v14H5zM5 10h14M5 14.5h14M10 5v14"/></svg></span>
+      <span>Editor Visual de Imagens</span>
+    </a>
+    <nav id="nav">
+      <a href="#inicio">Visão geral</a>
+      <a href="#eap">EAP</a>
+      <a href="#detalhe">Atividades</a>
+      <a href="#equipe">Divisão</a>
+      <a href="#cronograma">Cronograma</a>
+    </nav>
+    <button class="btn" id="fs" title="Tela cheia"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg><span class="lbl">Tela cheia</span></button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div class="eyebrow">Gestão de Projetos de Sistema</div>
+      <h1>Editor Visual de Imagens</h1>
+      <p class="lead" id="lead">Estrutura analítica do projeto (EAP) e divisão de tarefas.</p>
+      <div class="team" id="team"></div>
+    </div>
+  </section>
+  <div class="wrap"><div class="kpis" id="kpis"></div></div>
+
+  <section class="s" id="eap">
+    <div class="wrap">
+      <div class="s-head">
+        <h2>EAP do projeto</h2>
+        <p>Decomposição do projeto em fases, pacotes de trabalho e grupos de atividades, com a carga horária de cada nível.</p>
+      </div>
+      <div class="card tree-card"><div class="tree" id="tree"></div></div>
+      <div class="grid3" id="phaseCards" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <section class="s" id="detalhe">
+    <div class="wrap">
+      <div class="s-head">
+        <h2>Detalhamento de todas as atividades</h2>
+        <p id="detalheSub">Cada pacote com seus grupos, tarefas, horas e responsável.</p>
+      </div>
+      <div class="legend" id="legend1"></div>
+      <div id="detail"></div>
+    </div>
+  </section>
+
+  <section class="s" id="equipe">
+    <div class="wrap">
+      <details class="fold">
+        <summary class="s-head">
+          <h2>Divisão por pessoa</h2>
+          <span class="sub">Carga de cada integrante, distribuição por pacote e a lista de tarefas de cada um.</span>
+        </summary>
+        <div class="grid2" id="people"></div>
+        <div class="card chart-card">
+          <h3>Horas por pacote de trabalho</h3>
+          <div class="legend" id="legend2" style="margin-top:6px"></div>
+          <div id="pkChart"></div>
+        </div>
+        <div class="grid2 lists" id="plists"></div>
+        <div id="notes"></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="s" id="cronograma">
+    <div class="wrap">
+      <div class="s-head">
+        <h2>Gráfico de Gantt</h2>
+        <p>Cronograma calculado a partir das horas e dos responsáveis da planilha. Ajuste a data de início e a dedicação semanal de cada integrante para recalcular. Clique e arraste o gráfico para navegar.</p>
+      </div>
+      <div class="card gctl">
+        <div id="gStarts" style="display:contents"></div>
+        <div id="gCaps" style="display:contents"></div>
+        <label class="chk"><input type="checkbox" id="gTasks" checked>Mostrar tarefas</label>
+        <div class="legend" id="legend3"></div>
+      </div>
+      <div class="gsum" id="gsum"></div>
+      <div class="card gantt-card"><div class="gscroll"><div class="gantt" id="gantt"></div></div></div>
+      <p class="muted small gnote"><b>Como o cronograma é montado:</b> cada integrante faz uma tarefa por vez, no ritmo de horas semanais informado acima (semanas de 5 dias úteis, sem feriados).
+        Dentro de um grupo, tarefas de pessoas diferentes correm em paralelo e a última tarefa do grupo (teste, revisão, validação) espera as demais.
+        Cada grupo começa quando o anterior termina, e cada fase começa na data informada ou logo após o fim da fase anterior, o que acontecer depois
+        (deixe a data de uma fase em branco para emendá-la na anterior). Os losangos marcam o fim de cada fase.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="srcInfo">Fontes: divisao-tarefas.csv e mermaid.mmd</span>
+    <span>Gestão de Projetos de Sistema · Editor Visual de Imagens</span>
+  </div>
+</footer>
+
+<!-- Cópias incorporadas dos arquivos (usadas quando a página é aberta direto do disco).
+     Servindo a pasta por HTTP, a página lê divisao-tarefas.csv e mermaid.mmd ao vivo. -->
+<script type="text/plain" id="csv-embed">
+Nome,Tempo (h),Dono
+Delimitar funcionalidades,4 h,Iago
+Registrar exclusões e restrições,4 h,Arthur
+Pesquisar soluções existentes,6 h,Arthur
+Identificar comandos de edição,6 h,Iago
+Comparar alternativas de integração,4 h,Arthur
+Documentar resultados,4 h,Iago
+Estudar documentação e APIs,6 h,Arthur
+Executar exemplo básico,6 h,Arthur
+Registrar recursos e limitações,4 h,Iago
+Levantar requisitos funcionais,6 h,Iago
+Definir requisitos não funcionais,4 h,Arthur
+Revisar e priorizar requisitos,2 h,Iago
+Identificar atores e casos,2 h,Iago
+Desenhar diagrama,4 h,Arthur
+Identificar módulos,4 h,Arthur
+Definir responsabilidades,4 h,Arthur
+Revisar dependências,2 h,Iago
+Desenhar wireframe,4 h,Iago
+Definir painéis e ferramentas,4 h,Iago
+Definir fluxo de interação,4 h,Arthur
+Definir estrutura da composição,4 h,Arthur
+Definir interface de integração,4 h,Arthur
+Documentar fluxo de dados,2 h,Iago
+Definir modelo de estado,4 h,Arthur
+Definir operações de alteração,4 h,Arthur
+Validar sincronização prevista,2 h,Iago
+Criar repositório e projeto,4 h,Arthur
+Instalar dependências e testar,4 h,Arthur
+Criar configuração de contêiner,4 h,Arthur
+Validar execução e documentar,2 h,Iago
+Criar estrutura do canvas,6 h,Iago
+Implementar layout responsivo,6 h,Iago
+Implementar área de prévia,6 h,Arthur
+Testar interação e layout,6 h,Iago
+Definir propriedades dos elementos,4 h,Arthur
+Implementar elemento de texto,6 h,Arthur
+Implementar elemento de imagem,6 h,Arthur
+Testar criação e seleção,4 h,Iago
+Implementar movimentação,6 h,Iago
+Implementar redimensionamento,6 h,Arthur
+Implementar rotação,4 h,Arthur
+Implementar controles de propriedades,4 h,Iago
+Definir comandos suportados,6 h,Iago
+Implementar entrada textual,4 h,Iago
+Implementar interpretação,8 h,Arthur
+Converter comandos em operações,6 h,Arthur
+Testar comandos e erros,6 h,Iago
+Converter estado em composição,6 h,Arthur
+Integrar prévia do Remotion,6 h,Arthur
+Implementar atualização da prévia,6 h,Arthur
+Testar renderização e exportação,6 h,Iago
+Preparar identificação e estrutura,4 h,Iago
+Redigir resumo e palavras-chave,4 h,Iago
+Redigir introdução,6 h,Iago
+Redigir justificativa e objetivos,6 h,Iago
+Redigir fundamentação teórica,8 h,Iago
+Descrever metodologia,6 h,Iago
+Documentar implementação,8 h,Arthur
+Redigir resultados e conclusão,6 h,Iago
+Organizar referências,6 h,Arthur
+Preparar apêndices e anexos,4 h,Iago
+Revisar coerência e linguagem,6 h,Iago
+Verificar citações e referências,4 h,Arthur
+Aplicar formatação institucional,4 h,Iago
+Conferir versão final,2 h,Arthur
+Executar testes finais,4 h,Arthur
+Corrigir falhas prioritárias,4 h,Arthur
+Limpar e organizar código,4 h,Arthur
+Preparar instruções de execução,4 h,Iago
+Validar entrega e arquivos,4 h,Arthur
+Preparar roteiro dos slides,4 h,Iago
+Montar slides,4 h,Iago
+Ensaiar demonstração,2 h,Arthur
+Apresentar e demonstrar,2 h,Iago
+Apresentar e responder à banca,2 h,Arthur
+</script>
+
+<script type="text/plain" id="mmd-embed">
+flowchart TB
+    P["EDITOR VISUAL DE IMAGENS<br/>344h de atividades detalhadas"]
+
+    P --> AP["ANTEPROJETO<br/>104h"]
+    P --> T1["TCC I<br/>132h"]
+    P --> T2["TCC II<br/>108h"]
+
+    %% ========== ANTEPROJETO ==========
+    AP --> PES["1. PESQUISAS<br/>62h"]
+    AP --> ARQ["2. ARQUITETURA<br/>42h"]
+
+    PES --> P1["Escopo — 8h"]
+    P1 --> P11["Delimitar funcionalidades — 4h<br/>Iago"]
+    P1 --> P12["Registrar exclusões e restrições — 4h<br/>Arthur"]
+
+    PES --> P2["Linguagem natural e IA — 20h"]
+    P2 --> P21["Pesquisar soluções existentes — 6h<br/>Arthur"]
+    P2 --> P22["Identificar comandos de edição — 6h<br/>Iago"]
+    P2 --> P23["Comparar alternativas de integração — 4h<br/>Arthur"]
+    P2 --> P24["Documentar resultados — 4h<br/>Iago"]
+
+    PES --> P3["Estudo do Remotion — 16h"]
+    P3 --> P31["Estudar documentação e APIs — 6h<br/>Arthur"]
+    P3 --> P32["Executar exemplo básico — 6h<br/>Arthur"]
+    P3 --> P33["Registrar recursos e limitações — 4h<br/>Iago"]
+
+    PES --> P4["Requisitos — 12h"]
+    P4 --> P41["Levantar requisitos funcionais — 6h<br/>Iago"]
+    P4 --> P42["Definir requisitos não funcionais — 4h<br/>Arthur"]
+    P4 --> P43["Revisar e priorizar requisitos — 2h<br/>Iago"]
+
+    PES --> P5["Casos de uso — 6h"]
+    P5 --> P51["Identificar atores e casos — 2h<br/>Iago"]
+    P5 --> P52["Desenhar diagrama — 4h<br/>Arthur"]
+
+    ARQ --> A1["Módulos do editor — 10h"]
+    A1 --> A11["Identificar módulos — 4h<br/>Arthur"]
+    A1 --> A12["Definir responsabilidades — 4h<br/>Arthur"]
+    A1 --> A13["Revisar dependências — 2h<br/>Iago"]
+
+    ARQ --> A2["Organização da interface — 12h"]
+    A2 --> A21["Desenhar wireframe — 4h<br/>Iago"]
+    A2 --> A22["Definir painéis e ferramentas — 4h<br/>Iago"]
+    A2 --> A23["Definir fluxo de interação — 4h<br/>Arthur"]
+
+    ARQ --> A3["Comunicação com Remotion — 10h"]
+    A3 --> A31["Definir estrutura da composição — 4h<br/>Arthur"]
+    A3 --> A32["Definir interface de integração — 4h<br/>Arthur"]
+    A3 --> A33["Documentar fluxo de dados — 2h<br/>Iago"]
+
+    ARQ --> A4["Atualização do estado — 10h"]
+    A4 --> A41["Definir modelo de estado — 4h<br/>Arthur"]
+    A4 --> A42["Definir operações de alteração — 4h<br/>Arthur"]
+    A4 --> A43["Validar sincronização prevista — 2h<br/>Iago"]
+
+    %% ========== TCC I ==========
+    T1 --> AMB["3. PREPARAÇÃO DO AMBIENTE<br/>14h"]
+    T1 --> DEV["4. IMPLEMENTAÇÃO<br/>118h"]
+
+    AMB --> E1["Ambiente — 8h"]
+    E1 --> E11["Criar repositório e projeto — 4h<br/>Arthur"]
+    E1 --> E12["Instalar dependências e testar — 4h<br/>Arthur"]
+
+    AMB --> E2["Contêineres — 6h"]
+    E2 --> E21["Criar configuração de contêiner — 4h<br/>Arthur"]
+    E2 --> E22["Validar execução e documentar — 2h<br/>Iago"]
+
+    DEV --> D1["Área de composição — 24h"]
+    D1 --> D11["Criar estrutura do canvas — 6h<br/>Iago"]
+    D1 --> D12["Implementar layout responsivo — 6h<br/>Iago"]
+    D1 --> D13["Implementar área de prévia — 6h<br/>Arthur"]
+    D1 --> D14["Testar interação e layout — 6h<br/>Iago"]
+
+    DEV --> D2["Elementos editáveis — 20h"]
+    D2 --> D21["Definir propriedades dos elementos — 4h<br/>Arthur"]
+    D2 --> D22["Implementar elemento de texto — 6h<br/>Arthur"]
+    D2 --> D23["Implementar elemento de imagem — 6h<br/>Arthur"]
+    D2 --> D24["Testar criação e seleção — 4h<br/>Iago"]
+
+    DEV --> D3["Controles de edição — 20h"]
+    D3 --> D31["Implementar movimentação — 6h<br/>Iago"]
+    D3 --> D32["Implementar redimensionamento — 6h<br/>Arthur"]
+    D3 --> D33["Implementar rotação — 4h<br/>Arthur"]
+    D3 --> D34["Implementar controles de propriedades — 4h<br/>Iago"]
+
+    DEV --> D4["Linguagem natural — 30h"]
+    D4 --> D41["Definir comandos suportados — 6h<br/>Iago"]
+    D4 --> D42["Implementar entrada textual — 4h<br/>Iago"]
+    D4 --> D43["Implementar interpretação — 8h<br/>Arthur"]
+    D4 --> D44["Converter comandos em operações — 6h<br/>Arthur"]
+    D4 --> D45["Testar comandos e erros — 6h<br/>Iago"]
+
+    DEV --> D5["Visualização e renderização — 24h"]
+    D5 --> D51["Converter estado em composição — 6h<br/>Arthur"]
+    D5 --> D52["Integrar prévia do Remotion — 6h<br/>Arthur"]
+    D5 --> D53["Implementar atualização da prévia — 6h<br/>Arthur"]
+    D5 --> D54["Testar renderização e exportação — 6h<br/>Iago"]
+
+    %% ========== TCC II ==========
+    T2 --> DOC["5. DOCUMENTAÇÃO<br/>74h"]
+    T2 --> FIN["6. FINALIZAÇÃO<br/>34h"]
+
+    DOC --> C1["Pré-textuais — 8h"]
+    C1 --> C11["Preparar identificação e estrutura — 4h<br/>Iago"]
+    C1 --> C12["Redigir resumo e palavras-chave — 4h<br/>Iago"]
+
+    DOC --> C2["Elementos textuais — 40h"]
+    C2 --> C21["Redigir introdução — 6h<br/>Iago"]
+    C2 --> C22["Redigir justificativa e objetivos — 6h<br/>Iago"]
+    C2 --> C23["Redigir fundamentação teórica — 8h<br/>Iago"]
+    C2 --> C24["Descrever metodologia — 6h<br/>Iago"]
+    C2 --> C25["Documentar implementação — 8h<br/>Arthur"]
+    C2 --> C26["Redigir resultados e conclusão — 6h<br/>Iago"]
+
+    DOC --> C3["Pós-textuais — 10h"]
+    C3 --> C31["Organizar referências — 6h<br/>Arthur"]
+    C3 --> C32["Preparar apêndices e anexos — 4h<br/>Iago"]
+
+    DOC --> C4["Revisão e formatação — 16h"]
+    C4 --> C41["Revisar coerência e linguagem — 6h<br/>Iago"]
+    C4 --> C42["Verificar citações e referências — 4h<br/>Arthur"]
+    C4 --> C43["Aplicar formatação institucional — 4h<br/>Iago"]
+    C4 --> C44["Conferir versão final — 2h<br/>Arthur"]
+
+    FIN --> F1["Revisão do sistema — 8h"]
+    F1 --> F11["Executar testes finais — 4h<br/>Arthur"]
+    F1 --> F12["Corrigir falhas prioritárias — 4h<br/>Arthur"]
+
+    FIN --> F2["Organização da versão final — 12h"]
+    F2 --> F21["Limpar e organizar código — 4h<br/>Arthur"]
+    F2 --> F22["Preparar instruções de execução — 4h<br/>Iago"]
+    F2 --> F23["Validar entrega e arquivos — 4h<br/>Arthur"]
+
+    FIN --> F3["Apresentação — 10h"]
+    F3 --> F31["Preparar roteiro dos slides — 4h<br/>Iago"]
+    F3 --> F32["Montar slides — 4h<br/>Iago"]
+    F3 --> F33["Ensaiar demonstração — 2h<br/>Arthur"]
+
+    FIN --> F4["Defesa — 4h"]
+    F4 --> F41["Apresentar e demonstrar — 2h<br/>Iago"]
+    F4 --> F42["Apresentar e responder à banca — 2h<br/>Arthur"]
+
+    %% ========== ESTILOS ==========
+    %% "default" pinta todas as tarefas (folhas); as demais classes sobrescrevem
+    classDef default fill:#dcfce7,color:#14532d,stroke:#86cda0
+    classDef root fill:#334155,color:#fff,stroke:#1e293b
+    classDef phase fill:#b8acfb,color:#231266,stroke:#8a7be0
+    classDef package fill:#9ce6ff,color:#1c4657,stroke:#2c97bb
+    classDef group fill:#ffe86d,color:#574900,stroke:#a28e26
+
+    class P root
+    class AP,T1,T2 phase
+    class PES,ARQ,AMB,DEV,DOC,FIN package
+    class P1,P2,P3,P4,P5,A1,A2,A3,A4,E1,E2,D1,D2,D3,D4,D5,C1,C2,C3,C4,F1,F2,F3,F4 group
+</script>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ================= Utilidades ================= */
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const nf = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
+  const nf1 = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const H = n => nf.format(n) + ' h';
+  const Hs = n => `${nf.format(n)}<small> h</small>`;
+  const P = (a, b) => nf1.format(b ? a / b * 100 : 0) + '%';
+  const sum = a => a.reduce((s, x) => s + x, 0);
+  const PALETTE = [
+    { color: '#1a73e8', bg: '#e8f0fe', fg: '#1967d2' },
+    { color: '#e8710a', bg: '#feefe3', fg: '#b06000' },
+    { color: '#9334e6', bg: '#f3e8fd', fg: '#7627bb' },
+    { color: '#d93025', bg: '#fce8e6', fg: '#c5221f' },
+  ];
+
+  /* ================= Leitura dos arquivos ================= */
+  function parseCSV(text) {
+    const rows = [];
+    for (const line of text.split(/\r?\n/)) {
+      if (!line.trim()) continue;
+      const out = []; let cur = '', q = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (q) { if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; } else if (ch === '"') q = false; else cur += ch; }
+        else if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur = ''; } else cur += ch;
+      }
+      out.push(cur); rows.push(out.map(s => s.trim()));
+    }
+    return rows;
+  }
+  const hoursOf = s => parseFloat(String(s).replace(',', '.')) || 0;
+  const sentence = s => s === s.toUpperCase()
+    ? s.split(' ').map(w => /^(TCC|I|II|III|IV|V)$/.test(w) ? w : w.toLowerCase()).join(' ').replace(/^./, c => c.toUpperCase())
+    : s;
+
+  function parseLabel(lbl) {
+    const parts = lbl.split(/<br\s*\/?>/i).map(s => s.trim());
+    let name = parts[0], hours = null, owner = null, num = null;
+    const m = name.match(/^(.*?)\s*[—–-]\s*(\d+(?:[.,]\d+)?)\s*h$/);
+    if (m) { name = m[1]; hours = hoursOf(m[2]); }
+    if (parts[1]) {
+      const hm = parts[1].match(/(\d+(?:[.,]\d+)?)\s*h\b/);
+      if (hm) { if (hours == null) hours = hoursOf(hm[1]); } else owner = parts[1];
+    }
+    const nm = name.match(/^(\d+)\.\s*(.*)$/);
+    if (nm) { num = +nm[1]; name = nm[2]; }
+    return { name: sentence(name), hours, owner, num };
+  }
+
+  function parseMermaid(text) {
+    const labels = {}, kids = {}, hasParent = new Set(), order = [];
+    const node = (id, lbl) => { if (lbl != null) labels[id] = lbl; if (!order.includes(id)) order.push(id); };
+    for (const raw of text.split(/\r?\n/)) {
+      const t = raw.trim();
+      if (!t || t.startsWith('%%') || /^(flowchart|graph|classDef|class|style|linkStyle)\b/.test(t)) continue;
+      const e = t.match(/^(\w+)(?:\s*\[\s*"([^"]*)"\s*\])?\s*-->\s*(\w+)(?:\s*\[\s*"([^"]*)"\s*\])?/);
+      if (e) { node(e[1], e[2]); node(e[3], e[4]); (kids[e[1]] ||= []).push(e[3]); hasParent.add(e[3]); continue; }
+      const d = t.match(/^(\w+)\s*\[\s*"([^"]*)"\s*\]/);
+      if (d) node(d[1], d[2]);
+    }
+    const rootId = order.find(id => !hasParent.has(id) && kids[id]);
+    const build = (id, depth) => ({ id, depth, ...parseLabel(labels[id] || id), kids: (kids[id] || []).map(k => build(k, depth + 1)) });
+    return rootId ? build(rootId, 0) : null;
+  }
+
+  async function load(file, embedId) {
+    try {
+      if (location.protocol.startsWith('http')) {
+        const r = await fetch(file, { cache: 'no-store' });
+        if (r.ok) return { text: await r.text(), live: true };
+      }
+    } catch (_) { /* usa a cópia incorporada */ }
+    return { text: document.getElementById(embedId).textContent.trim(), live: false };
+  }
+
+  /* ================= Modelo ================= */
+  const M = {};
+  function buildModel(csvText, mmdText) {
+    const csv = parseCSV(csvText).slice(1).filter(r => r[0]);
+    const csvMap = new Map(csv.map(r => [r[0], { h: hoursOf(r[1]), owner: r[2] || '—' }]));
+    const root = parseMermaid(mmdText);
+    const tasks = [], phases = [], packages = [], groups = [], notes = [], used = new Set();
+
+    (function walk(n, ctx, code) {
+      n.code = code;
+      if (!n.kids.length && n.depth > 0) {
+        const c = csvMap.get(n.name);
+        if (c) {
+          used.add(n.name);
+          if (n.owner && c.owner !== n.owner) n.note = `Responsável divergente: a planilha (divisao-tarefas.csv) indica ${c.owner}; o diagrama (mermaid.mmd) indica ${n.owner}. Foi considerada a planilha.`;
+          if (n.hours != null && c.h !== n.hours) n.note = (n.note ? n.note + ' ' : '') + `Horas divergentes: planilha ${H(c.h)}, diagrama ${H(n.hours)}.`;
+          n.owner = c.owner; n.hours = c.h;
+        } else {
+          n.note = 'Tarefa presente no diagrama, mas ausente na planilha divisao-tarefas.csv.';
+          n.hours = n.hours || 0; n.owner = n.owner || '—';
+        }
+        if (n.note) notes.push({ name: n.name, text: n.note });
+        tasks.push({ node: n, name: n.name, h: n.hours, owner: n.owner, code, group: ctx.group, pkg: ctx.pkg, phase: ctx.phase });
+        return n.hours;
+      }
+      const next = { ...ctx };
+      if (n.depth === 1) { next.phase = n; phases.push(n); }
+      if (n.depth === 2) { next.pkg = n; packages.push(n); }
+      if (n.depth === 3) { next.group = n; groups.push(n); }
+      const total = sum(n.kids.map((k, i) => walk(k, next, k.depth === 2 ? String(k.num ?? '') : (k.depth >= 3 ? (code ? code + '.' : '') + (i + 1) : ''))));
+      if (n.hours != null && n.hours !== total) notes.push({ name: n.name, text: `O diagrama informa ${H(n.hours)} para “${n.name}”, mas a soma das tarefas é ${H(total)}.` });
+      n.hours = total;
+      return total;
+    })(root, {}, '');
+
+    csv.filter(r => !used.has(r[0])).forEach(r => notes.push({ name: r[0], text: `A tarefa “${r[0]}” está na planilha, mas não aparece no diagrama.` }));
+
+    const people = [...new Set(tasks.map(t => t.owner))].filter(p => p !== '—').sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    const color = {}; people.forEach((p, i) => color[p] = PALETTE[i % PALETTE.length]);
+    color['—'] = { color: '#9aa0a6', bg: '#f1f3f4', fg: '#3c4043' };
+
+    Object.assign(M, { root, tasks, phases, packages, groups, notes, people, color });
+    M.total = sum(tasks.map(t => t.h));
+    M.under = node => tasks.filter(t => t.phase === node || t.pkg === node || t.group === node || node === root);
+    M.hoursOf = (node, p) => sum(M.under(node).filter(t => !p || t.owner === p).map(t => t.h));
+    M.byPerson = p => tasks.filter(t => t.owner === p);
+  }
+
+  /* ================= Componentes ================= */
+  const chip = p => { const k = M.color[p] || M.color['—']; return `<span class="chip" style="background:${k.bg};color:${k.fg}">${esc(p)}</span>`; };
+  const avatar = p => `<span class="avatar" style="background:${M.color[p].color}">${esc(p[0])}</span>`;
+  const warn = text => `<span class="warn" title="${esc(text)}">!</span>`;
+  function split(node, labels = true) {
+    const tot = M.hoursOf(node);
+    return `<div class="split" title="${M.people.map(p => `${p}: ${H(M.hoursOf(node, p))}`).join(' · ')}">${M.people.map(p => {
+      const v = M.hoursOf(node, p); if (!v) return '';
+      return `<span style="width:${v / tot * 100}%;background:${M.color[p].color}">${labels ? `${esc(p)} ${nf.format(v)} h` : nf.format(v)}</span>`;
+    }).join('')}</div>`;
+  }
+  const legendHTML = () => M.people.map(p => `<span><i style="background:${M.color[p].color}"></i>${esc(p)}</span>`).join('');
+
+  function barChart(cats, series) {
+    const w = 1000, rowH = 46, pad = { l: 220, r: 60, t: 10, b: 30 };
+    const h = pad.t + pad.b + rowH * cats.length;
+    const totals = cats.map((_, i) => sum(series.map(s => s.values[i])));
+    const raw = Math.max(...totals) / 5, p10 = Math.pow(10, Math.floor(Math.log10(raw || 1)));
+    const step = [1, 2, 2.5, 5, 10].map(m => m * p10).find(s => s >= raw), max = Math.ceil(Math.max(...totals) / step) * step;
+    const pw = w - pad.l - pad.r, bh = 28;
+    let g = '';
+    for (let v = 0; v <= max + 1e-9; v += step) {
+      const x = pad.l + v / max * pw;
+      g += `<line x1="${x}" x2="${x}" y1="${pad.t}" y2="${h - pad.b}" stroke="${v ? '#e8eaed' : '#9aa0a6'}"/><text x="${x}" y="${h - 8}" text-anchor="middle" font-size="13" fill="#5f6368">${nf.format(v)} h</text>`;
+    }
+    cats.forEach((c, i) => {
+      const y = pad.t + rowH * i + (rowH - bh) / 2; let acc = 0;
+      g += `<text x="${pad.l - 14}" y="${y + bh / 2 + 5}" text-anchor="end" font-size="15" fill="#202124">${esc(c)}</text>`;
+      series.forEach(s => {
+        const v = s.values[i]; if (!v) return;
+        const x = pad.l + acc / max * pw, ww = v / max * pw;
+        g += `<rect x="${x}" y="${y}" width="${ww}" height="${bh}" fill="${s.color}"><title>${esc(c)} · ${esc(s.name)}: ${H(v)}</title></rect>`;
+        if (ww > 30) g += `<text x="${x + ww / 2}" y="${y + bh / 2 + 5}" text-anchor="middle" font-size="13" font-weight="500" fill="#fff">${nf.format(v)}</text>`;
+        acc += v;
+      });
+      g += `<text x="${pad.l + acc / max * pw + 8}" y="${y + bh / 2 + 5}" font-size="14" font-weight="700" fill="#0d652d">${nf.format(acc)} h</text>`;
+    });
+    return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Horas por pacote de trabalho" style="font-family:Roboto,Arial,sans-serif">${g}</svg>`;
+  }
+
+  /* ================= Renderização ================= */
+  function render() {
+    const T = M.tasks.length, TOT = M.total;
+    const label = n => (n.num != null ? n.num + '. ' : '') + n.name;
+
+    // Capa
+    $('#lead').textContent = `Estrutura analítica do projeto (EAP) e divisão de tarefas: ${H(TOT)} de trabalho distribuídas entre ${M.phases.map(p => p.name).join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
+    $('#team').innerHTML = M.people.map(p => `<span class="member">${avatar(p)}${esc(p)}</span>`).join('');
+    const kpis = [
+      [Hs(TOT), 'carga horária total'], [T, 'tarefas'], [M.phases.length, 'fases'],
+      [M.packages.length, 'pacotes de trabalho'], [M.groups.length, 'grupos de atividades'], [Hs(+(TOT / T).toFixed(1)), 'média por tarefa'],
+    ];
+    $('#kpis').innerHTML = kpis.map(([v, k]) => `<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('');
+
+    // Fases
+    $('#phaseCards').innerHTML = M.phases.map((ph, i) => `
+      <article class="card phase">
+        <div><span class="tag">Fase ${i + 1}</span><h3>${esc(ph.name)}</h3></div>
+        <div><div class="big">${Hs(ph.hours)}</div>
+          <div class="meter" style="margin-top:12px"><i style="width:${ph.hours / TOT * 100}%"></i></div>
+          <div class="muted small" style="margin-top:6px">${P(ph.hours, TOT)} da carga total · ${M.under(ph).length} tarefas</div></div>
+        <ul class="pk-list">${ph.kids.map(pk => `<li><span>${esc(label(pk))} <span class="muted small">· ${pk.kids.length} grupos</span></span><b>${H(pk.hours)}</b></li>`).join('')}</ul>
+        ${split(ph)}
+      </article>`).join('');
+
+    // Árvore
+    const groupsUl = pk => `<ul class="groups">${pk.kids.map(g => `<li><span class="node n3">${esc(g.code)} ${esc(g.name)}<small>${H(g.hours)}</small></span></li>`).join('')}</ul>`;
+    $('#tree').innerHTML = `<ul><li><span class="node n0">Editor Visual de Imagens<small>${H(TOT)}</small></span>
+      <ul>${M.phases.map(ph => `<li><span class="node n1">${esc(ph.name)}<small>${H(ph.hours)}</small></span>
+        <ul>${ph.kids.map(pk => `<li><span class="node n2">${esc(label(pk))}<small>${H(pk.hours)}</small></span>${groupsUl(pk)}</li>`).join('')}</ul></li>`).join('')}</ul></li></ul>`;
+
+    // Detalhamento
+    $('#legend1').innerHTML = legendHTML();
+    $('#detail').innerHTML = M.phases.map((ph, i) => `
+      <div class="phase-band"><h3><span class="tag">Fase ${i + 1}</span>${esc(ph.name)}</h3><span class="muted">${H(ph.hours)} · ${M.under(ph).length} tarefas</span></div>
+      <div class="pk-grid">${ph.kids.map(pk => `
+        <article class="card pkcard">
+          <header><span class="pknum">${esc(pk.num ?? '')}</span>
+            <div><h4>${esc(pk.name)}</h4><div class="meta">${H(pk.hours)} · ${M.under(pk).length} tarefas · ${pk.kids.length} grupos</div></div>
+            ${split(pk, false)}</header>
+          ${pk.kids.map(g => `
+            <div class="grp">
+              <div class="grp-h"><span class="code">${esc(g.code)}</span>${esc(g.name)}<span class="h">${H(g.hours)}</span></div>
+              <ul class="tasks">${g.kids.map(t => `<li><span class="code">${esc(t.code)}</span><span>${esc(t.name)}${t.note ? warn(t.note) : ''}</span>${chip(t.owner)}<span class="th">${H(t.hours)}</span></li>`).join('')}</ul>
+            </div>`).join('')}
+        </article>`).join('')}</div>`).join('');
+
+    // Equipe
+    $('#people').innerHTML = M.people.map(p => {
+      const ts = M.byPerson(p), hrs = sum(ts.map(t => t.h)), k = M.color[p];
+      const top = [...ts].sort((a, b) => b.h - a.h)[0];
+      return `<article class="card person">
+        <div class="person-top">${avatar(p)}<div><h3>${esc(p)}</h3><div class="muted small">${P(hrs, TOT)} da carga total</div></div>
+          <div class="big" style="color:${k.color}">${Hs(hrs)}<span class="of">de ${H(TOT)}</span></div></div>
+        <div class="stats"><div class="stat"><b>${ts.length}</b><span>tarefas</span></div><div class="stat"><b>${H(+(hrs / ts.length).toFixed(1))}</b><span>média por tarefa</span></div>
+          <div class="stat"><b>${H(top.h)}</b><span>maior tarefa</span></div></div>
+        <div class="rows">${M.phases.map(ph => { const v = M.hoursOf(ph, p); return `<div class="row"><span>${esc(ph.name)}</span><div class="meter"><i style="width:${v / ph.hours * 100}%;background:${k.color}"></i></div><b>${H(v)}</b></div>`; }).join('')}</div>
+        <div class="muted small" style="margin-top:8px">Barras: participação de ${esc(p)} nas horas de cada fase.</div>
+      </article>`;
+    }).join('');
+    $('#legend2').innerHTML = legendHTML();
+    $('#pkChart').innerHTML = barChart(M.packages.map(label), M.people.map(p => ({ name: p, color: M.color[p].color, values: M.packages.map(pk => M.hoursOf(pk, p)) })));
+    $('#plists').innerHTML = M.people.map(p => `<article class="card plist"><h3>${avatar(p)}Tarefas de ${esc(p)} <span class="muted small">(${M.byPerson(p).length})</span></h3>
+      ${M.phases.map(ph => { const ts = M.byPerson(p).filter(t => t.phase === ph); return ts.length ? `<h4>${esc(ph.name)} · ${H(sum(ts.map(t => t.h)))}</h4><ol>${ts.map(t => `<li><span>${esc(t.name)}${t.node.note ? warn(t.node.note) : ''}</span><span>${H(t.h)}</span></li>`).join('')}</ol>` : ''; }).join('')}
+    </article>`).join('');
+    $('#notes').innerHTML = M.notes.length ? `<div class="callout"><span class="warn">!</span><div><b>Ponto de atenção entre os arquivos.</b> ${M.notes.map(n => esc(n.text)).join(' ')}</div></div>` : '';
+    $('#detalheSub').textContent = `Os ${M.packages.length} pacotes de trabalho com seus ${M.groups.length} grupos e ${T} tarefas, cada uma com horas e responsável.`;
+  }
+
+  /* ================= Cronograma (Gantt) ================= */
+  const INICIOS_PADRAO = ['2026-10-19', '2027-03-01', '2027-08-02'], HORAS_SEMANA_PADRAO = 10; // início de cada fase
+  const DAY = 864e5, WK = 40, DW = WK / 5;
+  const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  const fmtD = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
+  const fmtDM = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'UTC' });
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (_) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) { /* sem armazenamento */ } },
+  };
+  const G = { starts: [...INICIOS_PADRAO], cap: {}, tasks: true };
+  const utc = s => { const [y, m, d] = String(s).split('-').map(Number); return Date.UTC(y, m - 1, d); };
+
+  // Agenda em dias úteis (fracionários) contados a partir do início da primeira fase.
+  function schedule(C) {
+    const rate = p => Math.max(+G.cap[p] || HORAS_SEMANA_PADRAO, 0.5) / 5; // horas por dia útil
+    const free = {}, at = new Map(), pushed = new Set();
+    let gate = 0, phase = null;
+    for (const g of M.groups) {
+      const ts = M.tasks.filter(t => t.group === g);
+      if (!ts.length) continue;
+      if (ts[0].phase !== phase) {
+        phase = ts[0].phase;
+        const t = utc(G.starts[M.phases.indexOf(phase)]);
+        if (!isNaN(t)) { const want = C.idx(t); if (want < gate) pushed.add(phase); gate = Math.max(gate, want); }
+      }
+      let end = gate;
+      ts.forEach((t, i) => {
+        const closing = ts.length > 1 && i === ts.length - 1;
+        const s = Math.max(closing ? end : gate, free[t.owner] || 0);
+        const e = s + t.h / rate(t.owner);
+        free[t.owner] = e; at.set(t, { s, e }); end = Math.max(end, e);
+      });
+      gate = end;
+    }
+    return { at, pushed };
+  }
+
+  function calendar() {
+    let t0 = utc(G.starts[0]);
+    if (isNaN(t0)) t0 = utc(INICIOS_PADRAO[0]);
+    const wd = (new Date(t0).getUTCDay() + 6) % 7; // segunda = 0
+    const mon0 = wd >= 5 ? t0 + (7 - wd) * DAY : t0 - wd * DAY, off = wd >= 5 ? 0 : wd;
+    const date = n => { const k = off + n; return new Date(mon0 + (Math.floor(k / 5) * 7 + k % 5) * DAY); };
+    // Inverso de date(): sábado e domingo contam como a segunda-feira seguinte.
+    const idx = t => { const diff = Math.round((t - mon0) / DAY); return Math.floor(diff / 7) * 5 + Math.min(((diff % 7) + 7) % 7, 5) - off; };
+    return { mon0, off, date, idx };
+  }
+
+  function renderGantt() {
+    const C = calendar(), { at, pushed } = schedule(C);
+    const span = node => { const xs = M.under(node).map(t => at.get(t)); return { s: Math.min(...xs.map(x => x.s)), e: Math.max(...xs.map(x => x.e)) }; };
+    const d0 = sp => C.date(Math.floor(sp.s + 1e-9));
+    const d1 = sp => C.date(Math.max(Math.ceil(sp.e - 1e-9) - 1, Math.floor(sp.s + 1e-9)));
+    const X = n => (C.off + n) * DW;
+    const total = span(M.root);
+    const weeks = Math.ceil((C.off + total.e) / 5) + 1, TW = weeks * WK;
+    const wkLen = sp => nf.format(Math.round((sp.e - sp.s) / 5 * 10) / 10);
+
+    // Resumo por fase
+    const totWeeks = sum(M.phases.map(ph => { const sp = span(ph); return (sp.e - sp.s) / 5; })); // só semanas dentro das fases
+    $('#gsum').innerHTML = M.phases.map((ph, i) => { const sp = span(ph); return `<div class="card gs">
+        <span class="tag">Fase ${i + 1}</span><h3>${esc(ph.name)}</h3>
+        <div class="gd">${fmtD.format(d0(sp))} → ${fmtD.format(d1(sp))}</div>
+        <div class="muted small">${wkLen(sp)} semanas · ${H(ph.hours)}</div>
+        ${pushed.has(ph) ? `<div class="small" style="color:#b06000;margin-top:4px">Início ajustado: a fase anterior termina em ${fmtD.format(d1(span(M.phases[i - 1])))}</div>` : ''}</div>`; }).join('') +
+      `<div class="card gs tot"><span class="tag">Término previsto</span>
+        <div class="gd">${fmtD.format(d1(total))}</div>
+        <div class="muted small">${wkLen(total)} semanas do início ao fim · ocupação nas fases ${M.people.map(p => `${esc(p)} ${Math.round(sum(M.byPerson(p).map(t => t.h)) / ((+G.cap[p] || HORAS_SEMANA_PADRAO) * totWeeks) * 100)}%`).join(' · ')}</div></div>`;
+
+    // Cabeçalho: meses e semanas
+    let months = '', weekCells = '';
+    for (let w = 0; w < weeks; w++) {
+      const dt = new Date(C.mon0 + w * 7 * DAY);
+      weekCells += `<span style="width:${WK}px" title="Semana ${w + 1} · ${fmtD.format(dt)}">${fmtDM.format(dt)}</span>`;
+    }
+    for (let w = 0; w < weeks;) {
+      const dt = new Date(C.mon0 + w * 7 * DAY), key = dt.getUTCMonth();
+      let n = 0; while (w + n < weeks && new Date(C.mon0 + (w + n) * 7 * DAY).getUTCMonth() === key) n++;
+      months += `<span style="width:${n * WK}px">${n > 1 ? `${MESES[key]} ${dt.getUTCFullYear()}` : MESES[key]}</span>`;
+      w += n;
+    }
+
+    // Linhas
+    const row = (cls, label, track, tip) => `<div class="grow ${cls}" title="${esc(tip)}"><div class="glabel">${label}</div><div class="gtrack">${track}</div></div>`;
+    const bar = (sp, cls, style = '') => `<i class="gb ${cls}" style="left:${X(sp.s)}px;width:${Math.max(X(sp.e) - X(sp.s), 2)}px;${style}"></i>`;
+    const txt = (sp, t) => `<span class="gt" style="left:${X(sp.e) + 8}px">${t}</span>`;
+    const range = sp => `${fmtDM.format(d0(sp))} – ${fmtDM.format(d1(sp))}`;
+    const tipOf = (name, sp, extra) => `${name}${extra ? '\n' + extra : ''}\n${fmtD.format(d0(sp))} a ${fmtD.format(d1(sp))}`;
+    let rows = '';
+    M.phases.forEach((ph, i) => {
+      const sp = span(ph);
+      rows += row('gph', `<span class="n">Fase ${i + 1} · ${esc(ph.name)}</span><span class="gh">${H(ph.hours)}</span>`,
+        bar(sp, 'gb-ph') + `<i class="gms" style="left:${X(sp.e)}px"></i>` + `<span class="gt" style="left:${X(sp.e) + 14}px">${range(sp)}</span>`,
+        tipOf(`Fase ${i + 1} · ${ph.name}`, sp, `${H(ph.hours)} · marco: fim da fase em ${fmtD.format(d1(sp))}`));
+      ph.kids.forEach(pk => {
+        const sp = span(pk);
+        rows += row('gpk', `<span class="n">${esc(pk.num ?? '')}. ${esc(pk.name)}</span><span class="gh">${H(pk.hours)}</span>`,
+          bar(sp, 'gb-pk') + txt(sp, range(sp)), tipOf(`${pk.num}. ${pk.name}`, sp, H(pk.hours)));
+        pk.kids.forEach(g => {
+          const sp = span(g);
+          rows += row('ggr', `<span class="code">${esc(g.code)}</span><span class="n">${esc(g.name)}</span><span class="gh">${H(g.hours)}</span>`,
+            bar(sp, 'gb-gr') + txt(sp, range(sp)), tipOf(`${g.code} ${g.name}`, sp, H(g.hours)));
+          M.tasks.filter(t => t.group === g).forEach(t => {
+            const sp = at.get(t), k = M.color[t.owner] || M.color['—'];
+            rows += row('gtk', `<span class="code">${esc(t.code)}</span><span class="n">${esc(t.name)}</span><span class="gh">${H(t.h)}</span>`,
+              bar(sp, 'gb-tk', `background:${k.color}`) + `<span class="gt" style="left:${X(sp.e) + 6}px;color:${k.fg}">${esc(t.owner)}</span>`,
+              tipOf(`${t.code} ${t.name}`, sp, `${t.owner} · ${H(t.h)}`));
+          });
+        });
+      });
+    });
+
+    // Linha de hoje
+    const n = new Date(), diff = Math.round((Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()) - C.mon0) / DAY);
+    const today = diff >= 0 && diff < weeks * 7
+      ? `<div class="gtoday" style="left:calc(var(--lw) + ${(Math.floor(diff / 7) * 5 + Math.min(diff % 7, 5)) * DW + DW / 2}px)"><span>Hoje</span></div>` : '';
+
+    const el = $('#gantt');
+    el.style.setProperty('--tw', TW + 'px');
+    el.style.setProperty('--wk', WK + 'px');
+    el.classList.toggle('notasks', !G.tasks);
+    el.innerHTML = `<div class="ghead">
+        <div class="grow gmonths"><div class="glabel"></div><div class="gtrack">${months}</div></div>
+        <div class="grow gweeks"><div class="glabel">Atividade</div><div class="gtrack">${weekCells}</div></div>
+      </div>${rows}${today}`;
+  }
+
+  // Navegação arrastando com o botão esquerdo do mouse (no toque, a rolagem nativa já faz isso).
+  function dragToPan(el) {
+    let drag = null;
+    el.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY, l: el.scrollLeft, t: el.scrollTop, moved: false };
+    });
+    el.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.moved) {
+        if (Math.hypot(dx, dy) < 4) return; // tolerância para não confundir clique com arrasto
+        drag.moved = true; el.classList.add('dragging'); el.setPointerCapture(e.pointerId);
+      }
+      el.scrollLeft = drag.l - dx; el.scrollTop = drag.t - dy;
+    });
+    const end = () => { el.classList.remove('dragging'); drag = null; };
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+  }
+
+  function initGantt() {
+    dragToPan($('.gscroll'));
+    const saved = store.get('gantt-config') || {};
+    const src = Array.isArray(saved.starts) ? saved.starts : (saved.start ? [saved.start] : []);
+    G.starts = M.phases.map((_, i) => src[i] ?? INICIOS_PADRAO[i] ?? '');
+    G.tasks = saved.tasks !== false;
+    M.people.forEach(p => G.cap[p] = +(saved.cap || {})[p] || HORAS_SEMANA_PADRAO);
+    const save = () => { store.set('gantt-config', G); renderGantt(); };
+    $('#gStarts').innerHTML = M.phases.map((ph, i) => `<label>Início · ${esc(ph.name)}<input type="date" data-i="${i}" value="${esc(G.starts[i])}"${i ? '' : ' required'}></label>`).join('');
+    $('#gTasks').checked = G.tasks;
+    $('#gCaps').innerHTML = M.people.map(p => `<label>${esc(p)} · h/semana<input type="number" min="1" max="60" step="1" data-p="${esc(p)}" value="${G.cap[p]}"></label>`).join('');
+    $('#legend3').innerHTML = legendHTML() + '<span><i style="background:#f9ab00;border-radius:2px;transform:rotate(45deg)"></i>Fim de fase</span>';
+    $('#gStarts').addEventListener('change', e => {
+      const i = +e.target.dataset.i, v = e.target.value;
+      if (i === 0 && !v) { e.target.value = G.starts[0]; return; } // a primeira fase precisa de data
+      G.starts[i] = v; save();
+    });
+    $('#gTasks').addEventListener('change', e => { G.tasks = e.target.checked; save(); });
+    $('#gCaps').addEventListener('input', e => { const v = +e.target.value; if (e.target.dataset.p && v > 0) { G.cap[e.target.dataset.p] = v; save(); } });
+    renderGantt();
+  }
+
+  /* ================= Navegação ================= */
+  $('#fs').addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}));
+  const links = [...document.querySelectorAll('#nav a')];
+  // A seção "Divisão por pessoa" começa recolhida; o link do menu a abre.
+  const fold = $('#equipe .fold');
+  $('#nav a[href="#equipe"]').addEventListener('click', () => { fold.open = true; });
+  if (location.hash === '#equipe') fold.open = true;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id)); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['inicio', 'eap', 'detalhe', 'equipe', 'cronograma'].forEach(id => io.observe(document.getElementById(id)));
+
+  /* ================= Início ================= */
+  (async () => {
+    const [csv, mmd] = await Promise.all([load('divisao-tarefas.csv', 'csv-embed'), load('mermaid.mmd', 'mmd-embed')]);
+    buildModel(csv.text, mmd.text);
+    render();
+    initGantt();
+    $('#srcInfo').textContent = csv.live && mmd.live
+      ? 'Dados lidos ao vivo de divisao-tarefas.csv e mermaid.mmd'
+      : 'Fontes: divisao-tarefas.csv e mermaid.mmd (cópia incorporada nesta página)';
+    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  })();
+})();
+</script>
+</body>
+</html>
