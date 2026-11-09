@@ -228,17 +228,53 @@
   .gtk .glabel { color: var(--ink-2); padding-left: 44px; }
   .gtk .code { font-size: 11px; }
   .gantt.notasks .gtk { display: none; }
-  .gb { position: absolute; top: 50%; transform: translateY(-50%); border-radius: 4px; }
-  .gb-ph { height: 12px; background: var(--g900); border-radius: 2px; }
-  .gb-pk { height: 10px; background: var(--g500); border-radius: 2px; }
-  .gb-gr { height: 8px; background: var(--g300); }
+  /* Barra contornada na cor do item: a parte cheia (b) é o percentual concluído. */
+  .gb { position: absolute; top: 50%; transform: translateY(-50%); border-radius: 4px; overflow: hidden;
+        background: color-mix(in srgb, var(--c) 28%, #fff); box-shadow: inset 0 0 0 1px var(--c); }
+  .gb b { position: absolute; inset: 0 auto 0 0; background: var(--c); }
+  .gb-ph { --c: var(--g900); height: 12px; border-radius: 2px; }
+  .gb-pk { --c: var(--g500); height: 10px; border-radius: 2px; }
+  .gb-gr { --c: var(--g300); height: 8px; }
   .gb-tk { height: 16px; }
+  .gscroll:not(.dragging) .gtk { cursor: pointer; }
+  .gtk:focus-visible { outline: none; }
+  .gtk:hover .glabel, .gtk:hover .gtrack { background-color: #f6f8f7; }
+  .gtk.sel .glabel, .gtk.sel .gtrack, .gtk:focus-visible .glabel, .gtk:focus-visible .gtrack { background-color: var(--g50); }
+  .gtk.sel .glabel, .gtk:focus-visible .glabel { box-shadow: inset 3px 0 0 var(--g600); }
   .gms { position: absolute; top: 50%; width: 13px; height: 13px; background: #f9ab00; border: 2px solid #fff; transform: translate(-50%, -50%) rotate(45deg); box-shadow: 0 0 0 1px #e37400; }
   .gt { position: absolute; top: 50%; transform: translateY(-50%); font-size: 11.5px; color: var(--muted); white-space: nowrap; pointer-events: none; }
   .gph .gt { font: 500 12px var(--head); color: var(--g900); }
   .gtoday { position: absolute; top: 48px; bottom: 0; width: 0; border-left: 2px solid #d93025; z-index: 1; pointer-events: none; }
   .gtoday span { position: absolute; top: 2px; left: 4px; font: 500 11px var(--head); color: #fff; background: #d93025; border-radius: 4px; padding: 0 5px; }
   .gnote { margin: 12px 0 0; }
+  .gm { position: relative; height: 8px; border-radius: 4px; background: var(--g50); margin-top: 12px; }
+  .gm i { position: absolute; inset: 0 auto 0 0; background: var(--g600); border-radius: 4px; }
+  .gm u { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: #d93025; border-radius: 1px; }
+  .gm u em { position: absolute; bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%); font: 500 11px var(--head); font-style: normal; color: #d93025; white-space: nowrap; }
+  .gprog { display: grid; grid-template-columns: auto 1fr; gap: 12px 36px; align-items: center; padding: 18px 22px; margin-bottom: 16px; }
+  .gprog .big { font: 500 40px/1 var(--head); color: var(--g700); margin: 10px 0 4px; }
+  .gprog .gm { height: 14px; border-radius: 7px; margin: 22px 0 10px; }
+  .gprog .gm i { border-radius: 7px; }
+  .st-late { color: #c5221f; }
+  .st-ahead, .st-ok { color: var(--g700); }
+  .gpop { position: fixed; z-index: 30; width: min(340px, calc(100vw - 32px)); background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+          box-shadow: 0 4px 16px rgba(60,64,67,.2), 0 1px 3px rgba(60,64,67,.15); font-size: 14px; }
+  .gpop-h { display: flex; gap: 8px; align-items: baseline; }
+  .gpop-h b { flex: 1; font: 500 15px/1.3 var(--head); }
+  .gpop-h .code { min-width: 0; }
+  .gpop-x { border: 0; background: none; padding: 0 2px; font: 22px/1 var(--body); color: var(--muted); cursor: pointer; }
+  .gpop-x:hover { color: var(--ink); }
+  .gpop-m { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .gpop-v { display: flex; align-items: center; gap: 12px; margin: 14px 0 10px; }
+  .gpop-v input[type=range] { flex: 1; min-width: 0; accent-color: var(--g700); }
+  .gpop-v label { display: flex; align-items: center; gap: 4px; font: 500 15px var(--head); color: var(--ink-2); }
+  .gpop-v input[type=number] { width: 64px; height: 34px; border: 1px solid var(--line); border-radius: 8px; padding: 0 8px; font: 15px var(--body); color: var(--ink); }
+  .gpop-v input:focus { outline: 2px solid var(--g300); border-color: var(--g500); }
+  .gpop-q { display: flex; gap: 6px; flex-wrap: wrap; }
+  .gpop-q button { height: 28px; padding: 0 11px; border-radius: 14px; border: 1px solid var(--line); background: #fff; font: 500 12px var(--head); color: var(--ink-2); cursor: pointer; }
+  .gpop-q button:hover { border-color: var(--g300); }
+  .gpop-q button.on { background: var(--g50); border-color: var(--g300); color: var(--g900); }
+  .gpop-st { margin-top: 12px; padding-top: 10px; border-top: 1px solid #f1f3f4; font-size: 13px; color: var(--ink-2); }
 
   footer { margin-top: 72px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -263,6 +299,7 @@
     .gantt { --lw: 190px; }
     .gpk .glabel, .ggr .glabel, .gtk .glabel { padding-left: 12px; }
     .gctl .legend { margin-left: 0; }
+    .gprog { grid-template-columns: 1fr; }
   }
   @media print {
     .bar { display: none; }
@@ -271,7 +308,8 @@
     .card, .kpi { break-inside: avoid; box-shadow: none; }
     section.s { padding-top: 32px; }
     .gscroll { max-height: none; overflow: visible; }
-    .gph .glabel, .gph .gtrack, .gb, .gms, .gtoday span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .gph .glabel, .gph .gtrack, .gb, .gb b, .gm i, .gm u, .gms, .gtoday span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .gpop { display: none !important; }
   }
 </style>
 </head>
@@ -349,7 +387,7 @@
     <div class="wrap">
       <div class="s-head">
         <h2>Gráfico de Gantt</h2>
-        <p>Cronograma calculado a partir das horas e dos responsáveis da planilha. Ajuste a data de início e a dedicação semanal de cada integrante para recalcular. Clique e arraste o gráfico para navegar.</p>
+        <p>Cronograma calculado a partir das horas e dos responsáveis da planilha. Ajuste a data de início e a dedicação semanal de cada integrante para recalcular. Clique e arraste o gráfico para navegar. Clique em uma tarefa para registrar quanto dela já foi concluído.</p>
       </div>
       <div class="card gctl">
         <div id="gStarts" style="display:contents"></div>
@@ -358,11 +396,15 @@
         <div class="legend" id="legend3"></div>
       </div>
       <div class="gsum" id="gsum"></div>
+      <div class="card gprog" id="gprog"></div>
       <div class="card gantt-card"><div class="gscroll"><div class="gantt" id="gantt"></div></div></div>
+      <div class="gpop" id="gpop" role="dialog" aria-label="Progresso da tarefa" hidden></div>
       <p class="muted small gnote"><b>Como o cronograma é montado:</b> cada integrante faz uma tarefa por vez, no ritmo de horas semanais informado acima (semanas de 5 dias úteis, sem feriados).
         Dentro de um grupo, tarefas de pessoas diferentes correm em paralelo e a última tarefa do grupo (teste, revisão, validação) espera as demais.
         Cada grupo começa quando o anterior termina, e cada fase começa na data informada ou logo após o fim da fase anterior, o que acontecer depois
-        (deixe a data de uma fase em branco para emendá-la na anterior). Os losangos marcam o fim de cada fase.</p>
+        (deixe a data de uma fase em branco para emendá-la na anterior). Os losangos marcam o fim de cada fase.
+        A parte cheia de cada barra é o percentual concluído; nos grupos, pacotes, fases e no projeto ele é a média das tarefas ponderada pelas horas.
+        O progresso esperado para hoje é a parte das horas que o cronograma previa concluir até a linha vermelha.</p>
     </div>
   </section>
 
@@ -863,6 +905,26 @@ flowchart TB
   const G = { starts: [...INICIOS_PADRAO], cap: {}, tasks: true };
   const utc = s => { const [y, m, d] = String(s).split('-').map(Number); return Date.UTC(y, m - 1, d); };
 
+  // Progresso: % concluído de cada tarefa (pelo nome), comparado ao que o cronograma previa até hoje.
+  const PROG = {};
+  let plan = null; // último cronograma calculado: { at, now, when }
+  let sel = null;  // índice (em M.tasks) da tarefa com o painel de progresso aberto
+  const Pc = v => nf.format(v) + '%';
+  const clamp01 = v => Math.min(Math.max(v, 0), 1);
+  const pctOf = t => PROG[t.name] || 0;
+  const expTask = t => { const x = plan.at.get(t); return 100 * (x.e > x.s ? clamp01((plan.now - x.s) / (x.e - x.s)) : +(plan.now >= x.e)); };
+  const weighted = (node, f) => { const ts = M.under(node), h = sum(ts.map(t => t.h)); return h ? sum(ts.map(t => t.h * f(t))) / h : 0; };
+  const doneOf = node => weighted(node, pctOf);
+  const expOf = node => weighted(node, expTask);
+  // Compara o concluído com o esperado; numa tarefa a diferença sai só em horas.
+  function ritmo(done, exp, hours, task) {
+    const d = done - exp;
+    if (Math.abs(d) < 0.5) return { cls: 'ok', txt: 'No ritmo previsto' };
+    const h = `≈ ${H(Math.abs(d) / 100 * hours)}`, gap = task ? `(${h})` : `${nf.format(Math.abs(d))} p.p. (${h})`;
+    return d < 0 ? { cls: 'late', txt: `${task ? 'Atrasada' : 'Atrasado'} ${gap}` } : { cls: 'ahead', txt: `${task ? 'Adiantada' : 'Adiantado'} ${gap}` };
+  }
+  const meter = (done, exp, label) => `<div class="gm"><i style="width:${done}%"></i>${exp > 0 ? `<u style="left:${exp}%" title="Esperado hoje: ${Pc(exp)}">${label ? '<em>Hoje</em>' : ''}</u>` : ''}</div>`;
+
   // Agenda em dias úteis (fracionários) contados a partir do início da primeira fase.
   function schedule(C) {
     const rate = p => Math.max(+G.cap[p] || HORAS_SEMANA_PADRAO, 0.5) / 5; // horas por dia útil
@@ -908,17 +970,32 @@ flowchart TB
     const total = span(M.root);
     const weeks = Math.ceil((C.off + total.e) / 5) + 1, TW = weeks * WK;
     const wkLen = sp => nf.format(Math.round((sp.e - sp.s) / 5 * 10) / 10);
+    const when = sp => `${fmtD.format(d0(sp))} a ${fmtD.format(d1(sp))}`;
+
+    // Hoje: meio do dia útil atual (no fim de semana, início da segunda-feira seguinte).
+    const n = new Date(), tday = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
+    const now = C.idx(tday) + ((new Date(tday).getUTCDay() + 6) % 7 < 5 ? .5 : 0);
+    plan = { at, now, when };
 
     // Resumo por fase
     const totWeeks = sum(M.phases.map(ph => { const sp = span(ph); return (sp.e - sp.s) / 5; })); // só semanas dentro das fases
-    $('#gsum').innerHTML = M.phases.map((ph, i) => { const sp = span(ph); return `<div class="card gs">
+    $('#gsum').innerHTML = M.phases.map((ph, i) => { const sp = span(ph), dn = doneOf(ph), ex = expOf(ph); return `<div class="card gs">
         <span class="tag">Fase ${i + 1}</span><h3>${esc(ph.name)}</h3>
         <div class="gd">${fmtD.format(d0(sp))} → ${fmtD.format(d1(sp))}</div>
         <div class="muted small">${wkLen(sp)} semanas · ${H(ph.hours)}</div>
-        ${pushed.has(ph) ? `<div class="small" style="color:#b06000;margin-top:4px">Início ajustado: a fase anterior termina em ${fmtD.format(d1(span(M.phases[i - 1])))}</div>` : ''}</div>`; }).join('') +
+        ${pushed.has(ph) ? `<div class="small" style="color:#b06000;margin-top:4px">Início ajustado: a fase anterior termina em ${fmtD.format(d1(span(M.phases[i - 1])))}</div>` : ''}
+        ${meter(dn, ex)}
+        <div class="muted small" style="margin-top:6px">${Pc(dn)} concluído · esperado hoje ${Pc(ex)}</div></div>`; }).join('') +
       `<div class="card gs tot"><span class="tag">Término previsto</span>
         <div class="gd">${fmtD.format(d1(total))}</div>
         <div class="muted small">${wkLen(total)} semanas do início ao fim · ocupação nas fases ${M.people.map(p => `${esc(p)} ${Math.round(sum(M.byPerson(p).map(t => t.h)) / ((+G.cap[p] || HORAS_SEMANA_PADRAO) * totWeeks) * 100)}%`).join(' · ')}</div></div>`;
+
+    // Progresso do projeto: concluído x esperado para hoje
+    const dn = doneOf(M.root), ex = expOf(M.root), st = ritmo(dn, ex, M.total);
+    $('#gprog').innerHTML = `<div><span class="tag">Progresso do projeto</span><div class="big">${Pc(dn)}</div>
+        <div class="muted small">${H(dn / 100 * M.total)} de ${H(M.total)} concluídas</div></div>
+      <div>${meter(dn, ex, true)}
+        <div class="small"><b class="st-${st.cls}">${st.txt}</b> · previsto até hoje (${fmtD.format(new Date(tday))}): ${Pc(ex)} do projeto</div></div>`;
 
     // Cabeçalho: meses e semanas
     let months = '', weekCells = '';
@@ -934,39 +1011,41 @@ flowchart TB
     }
 
     // Linhas
-    const row = (cls, label, track, tip) => `<div class="grow ${cls}" title="${esc(tip)}"><div class="glabel">${label}</div><div class="gtrack">${track}</div></div>`;
-    const bar = (sp, cls, style = '') => `<i class="gb ${cls}" style="left:${X(sp.s)}px;width:${Math.max(X(sp.e) - X(sp.s), 2)}px;${style}"></i>`;
+    const row = (cls, label, track, tip, attrs = '') => `<div class="grow ${cls}" title="${esc(tip)}"${attrs}><div class="glabel">${label}</div><div class="gtrack">${track}</div></div>`;
+    const bar = (sp, cls, p, style = '') => `<i class="gb ${cls}" style="left:${X(sp.s)}px;width:${Math.max(X(sp.e) - X(sp.s), 2)}px;${style}">${p ? `<b style="width:${p}%"></b>` : ''}</i>`;
     const txt = (sp, t) => `<span class="gt" style="left:${X(sp.e) + 8}px">${t}</span>`;
     const range = sp => `${fmtDM.format(d0(sp))} – ${fmtDM.format(d1(sp))}`;
-    const tipOf = (name, sp, extra) => `${name}${extra ? '\n' + extra : ''}\n${fmtD.format(d0(sp))} a ${fmtD.format(d1(sp))}`;
+    const tipOf = (name, sp, extra) => `${name}${extra ? '\n' + extra : ''}\n${when(sp)}`;
+    const pc = v => v ? ` · ${Pc(v)}` : '';
     let rows = '';
     M.phases.forEach((ph, i) => {
-      const sp = span(ph);
+      const sp = span(ph), dn = doneOf(ph);
       rows += row('gph', `<span class="n">Fase ${i + 1} · ${esc(ph.name)}</span><span class="gh">${H(ph.hours)}</span>`,
-        bar(sp, 'gb-ph') + `<i class="gms" style="left:${X(sp.e)}px"></i>` + `<span class="gt" style="left:${X(sp.e) + 14}px">${range(sp)}</span>`,
-        tipOf(`Fase ${i + 1} · ${ph.name}`, sp, `${H(ph.hours)} · marco: fim da fase em ${fmtD.format(d1(sp))}`));
+        bar(sp, 'gb-ph', dn) + `<i class="gms" style="left:${X(sp.e)}px"></i>` + `<span class="gt" style="left:${X(sp.e) + 14}px">${range(sp)}${pc(dn)}</span>`,
+        tipOf(`Fase ${i + 1} · ${ph.name}`, sp, `${H(ph.hours)} · ${Pc(dn)} concluído · marco: fim da fase em ${fmtD.format(d1(sp))}`));
       ph.kids.forEach(pk => {
-        const sp = span(pk);
+        const sp = span(pk), dn = doneOf(pk);
         rows += row('gpk', `<span class="n">${esc(pk.num ?? '')}. ${esc(pk.name)}</span><span class="gh">${H(pk.hours)}</span>`,
-          bar(sp, 'gb-pk') + txt(sp, range(sp)), tipOf(`${pk.num}. ${pk.name}`, sp, H(pk.hours)));
+          bar(sp, 'gb-pk', dn) + txt(sp, range(sp) + pc(dn)), tipOf(`${pk.num}. ${pk.name}`, sp, `${H(pk.hours)} · ${Pc(dn)} concluído`));
         pk.kids.forEach(g => {
-          const sp = span(g);
+          const sp = span(g), dn = doneOf(g);
           rows += row('ggr', `<span class="code">${esc(g.code)}</span><span class="n">${esc(g.name)}</span><span class="gh">${H(g.hours)}</span>`,
-            bar(sp, 'gb-gr') + txt(sp, range(sp)), tipOf(`${g.code} ${g.name}`, sp, H(g.hours)));
+            bar(sp, 'gb-gr', dn) + txt(sp, range(sp) + pc(dn)), tipOf(`${g.code} ${g.name}`, sp, `${H(g.hours)} · ${Pc(dn)} concluído`));
           M.tasks.filter(t => t.group === g).forEach(t => {
-            const sp = at.get(t), k = M.color[t.owner] || M.color['—'];
-            rows += row('gtk', `<span class="code">${esc(t.code)}</span><span class="n">${esc(t.name)}</span><span class="gh">${H(t.h)}</span>`,
-              bar(sp, 'gb-tk', `background:${k.color}`) + `<span class="gt" style="left:${X(sp.e) + 6}px;color:${k.fg}">${esc(t.owner)}</span>`,
-              tipOf(`${t.code} ${t.name}`, sp, `${t.owner} · ${H(t.h)}`));
+            const sp = at.get(t), k = M.color[t.owner] || M.color['—'], i = M.tasks.indexOf(t), p = pctOf(t);
+            rows += row(`gtk${i === sel ? ' sel' : ''}`, `<span class="code">${esc(t.code)}</span><span class="n">${esc(t.name)}</span><span class="gh">${H(t.h)}</span>`,
+              bar(sp, 'gb-tk', p, `--c:${k.color}`) + `<span class="gt" style="left:${X(sp.e) + 6}px;color:${k.fg}">${esc(t.owner)}${pc(p)}</span>`,
+              tipOf(`${t.code} ${t.name}`, sp, `${t.owner} · ${H(t.h)} · ${Pc(p)} concluído`) + '\nClique para registrar o progresso',
+              ` data-t="${i}" tabindex="0" role="button"`);
           });
         });
       });
     });
 
     // Linha de hoje
-    const n = new Date(), diff = Math.round((Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()) - C.mon0) / DAY);
+    const diff = Math.round((tday - C.mon0) / DAY);
     const today = diff >= 0 && diff < weeks * 7
-      ? `<div class="gtoday" style="left:calc(var(--lw) + ${(Math.floor(diff / 7) * 5 + Math.min(diff % 7, 5)) * DW + DW / 2}px)"><span>Hoje</span></div>` : '';
+      ? `<div class="gtoday" style="left:calc(var(--lw) + ${X(now)}px)"><span>Hoje</span></div>` : '';
 
     const el = $('#gantt');
     el.style.setProperty('--tw', TW + 'px');
@@ -980,11 +1059,14 @@ flowchart TB
 
   // Navegação arrastando com o botão esquerdo do mouse (no toque, a rolagem nativa já faz isso).
   function dragToPan(el) {
-    let drag = null;
+    let drag = null, dragged = false;
     el.addEventListener('pointerdown', e => {
+      dragged = false;
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
       drag = { x: e.clientX, y: e.clientY, l: el.scrollLeft, t: el.scrollTop, moved: false };
     });
+    // Um arrasto não conta como clique (não abre o painel de progresso da tarefa).
+    el.addEventListener('click', e => { if (dragged) { dragged = false; e.stopPropagation(); } }, true);
     el.addEventListener('pointermove', e => {
       if (!drag) return;
       const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
@@ -994,9 +1076,90 @@ flowchart TB
       }
       el.scrollLeft = drag.l - dx; el.scrollTop = drag.t - dy;
     });
-    const end = () => { el.classList.remove('dragging'); drag = null; };
+    const end = () => { el.classList.remove('dragging'); dragged = !!drag?.moved; drag = null; };
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
+  }
+
+  /* Painel de progresso da tarefa (abre ao clicar numa linha de tarefa do Gantt) */
+  function openPop(i) {
+    const t = M.tasks[i], pop = $('#gpop');
+    $('#gantt .gtk.sel')?.classList.remove('sel');
+    sel = i;
+    $(`#gantt .gtk[data-t="${i}"]`).classList.add('sel');
+    pop.innerHTML = `<div class="gpop-h"><span class="code">${esc(t.code)}</span><b>${esc(t.name)}</b><button type="button" class="gpop-x" aria-label="Fechar">×</button></div>
+      <div class="gpop-m">${chip(t.owner)}<span class="muted small">${H(t.h)} · ${plan.when(plan.at.get(t))}</span></div>
+      <div class="gpop-v"><input type="range" min="0" max="100" step="5" aria-label="Percentual concluído">
+        <label><input type="number" min="0" max="100" step="1" aria-label="Percentual concluído">%</label></div>
+      <div class="gpop-q">${[0, 25, 50, 75, 100].map(v => `<button type="button" data-v="${v}">${v === 100 ? 'Concluída' : v + '%'}</button>`).join('')}</div>
+      <div class="gpop-st"></div>`;
+    pop.hidden = false;
+    syncPop();
+    placePop();
+  }
+
+  function syncPop() {
+    const t = M.tasks[sel], p = pctOf(t), ex = expTask(t), st = ritmo(p, ex, t.h, true), pop = $('#gpop');
+    const [range, num] = pop.querySelectorAll('input');
+    range.value = p;
+    if (document.activeElement !== num) num.value = p; // não reescreve o campo enquanto a pessoa digita
+    pop.querySelectorAll('[data-v]').forEach(b => b.classList.toggle('on', +b.dataset.v === p));
+    pop.querySelector('.gpop-st').innerHTML = `Esperado até hoje: <b>${Pc(ex)}</b> · <span class="st-${st.cls}">${st.txt}</span>`;
+  }
+
+  function setPct(v) {
+    if (sel == null) return;
+    const t = M.tasks[sel];
+    v = Math.round(Math.min(Math.max(+v || 0, 0), 100));
+    if (v) PROG[t.name] = v; else delete PROG[t.name];
+    store.set('gantt-progresso', PROG);
+    syncPop();
+    renderGantt();
+  }
+
+  // Ancora o painel logo abaixo (ou acima) da linha da tarefa, dentro da área visível do gráfico.
+  function placePop() {
+    if (sel == null) return;
+    const r = $(`#gantt .gtk[data-t="${sel}"]`), pop = $('#gpop');
+    if (!r || !r.offsetParent) return closePop();
+    const b = r.querySelector('.gb').getBoundingClientRect(), row = r.getBoundingClientRect(), sc = $('.gscroll').getBoundingClientRect();
+    const w = pop.offsetWidth, h = pop.offsetHeight;
+    const left = Math.min(Math.max(Math.min(Math.max(b.left, sc.left), sc.right - w), 16), innerWidth - w - 16);
+    const top = row.bottom + 6 + h > innerHeight - 8 && row.top - h - 6 > 8 ? row.top - h - 6 : row.bottom + 6;
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+  }
+
+  function closePop(refocus) {
+    if (sel == null) return;
+    const r = $(`#gantt .gtk[data-t="${sel}"]`);
+    sel = null;
+    $('#gpop').hidden = true;
+    r?.classList.remove('sel');
+    if (refocus) r?.focus({ preventScroll: true });
+  }
+
+  function initPop() {
+    const pop = $('#gpop');
+    $('#gantt').addEventListener('click', e => {
+      const r = e.target.closest('.gtk');
+      if (r) +r.dataset.t === sel ? closePop() : openPop(+r.dataset.t);
+    });
+    $('#gantt').addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.gtk')) {
+        e.preventDefault(); openPop(+e.target.dataset.t); pop.querySelector('input[type=number]').focus();
+      }
+    });
+    pop.addEventListener('input', e => { if (e.target.value !== '') setPct(e.target.value); });
+    pop.addEventListener('change', e => { if (e.target.type === 'number' && sel != null) e.target.value = pctOf(M.tasks[sel]); });
+    pop.addEventListener('click', e => {
+      if (e.target.dataset.v) setPct(e.target.dataset.v);
+      else if (e.target.closest('.gpop-x')) closePop(true);
+    });
+    document.addEventListener('pointerdown', e => { if (sel != null && !e.target.closest('#gpop, .gtk')) closePop(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && sel != null) closePop(true); });
+    addEventListener('scroll', placePop, true);
+    addEventListener('resize', placePop);
   }
 
   function initGantt() {
@@ -1006,18 +1169,21 @@ flowchart TB
     G.starts = M.phases.map((_, i) => src[i] ?? INICIOS_PADRAO[i] ?? '');
     G.tasks = saved.tasks !== false;
     M.people.forEach(p => G.cap[p] = +(saved.cap || {})[p] || HORAS_SEMANA_PADRAO);
+    for (const [k, v] of Object.entries(store.get('gantt-progresso') || {})) if (+v > 0) PROG[k] = Math.min(Math.round(+v), 100);
     const save = () => { store.set('gantt-config', G); renderGantt(); };
     $('#gStarts').innerHTML = M.phases.map((ph, i) => `<label>Início · ${esc(ph.name)}<input type="date" data-i="${i}" value="${esc(G.starts[i])}"${i ? '' : ' required'}></label>`).join('');
     $('#gTasks').checked = G.tasks;
     $('#gCaps').innerHTML = M.people.map(p => `<label>${esc(p)} · h/semana<input type="number" min="1" max="60" step="1" data-p="${esc(p)}" value="${G.cap[p]}"></label>`).join('');
-    $('#legend3').innerHTML = legendHTML() + '<span><i style="background:#f9ab00;border-radius:2px;transform:rotate(45deg)"></i>Fim de fase</span>';
+    $('#legend3').innerHTML = legendHTML() + '<span><i style="background:#f9ab00;border-radius:2px;transform:rotate(45deg)"></i>Fim de fase</span>'
+      + '<span><i style="width:22px;border-radius:2px;background:linear-gradient(90deg,#5f6368 50%,#d5d7d9 50%)"></i>Concluído · a fazer</span>';
     $('#gStarts').addEventListener('change', e => {
       const i = +e.target.dataset.i, v = e.target.value;
       if (i === 0 && !v) { e.target.value = G.starts[0]; return; } // a primeira fase precisa de data
       G.starts[i] = v; save();
     });
-    $('#gTasks').addEventListener('change', e => { G.tasks = e.target.checked; save(); });
+    $('#gTasks').addEventListener('change', e => { G.tasks = e.target.checked; closePop(); save(); });
     $('#gCaps').addEventListener('input', e => { const v = +e.target.value; if (e.target.dataset.p && v > 0) { G.cap[e.target.dataset.p] = v; save(); } });
+    initPop();
     renderGantt();
   }
 
