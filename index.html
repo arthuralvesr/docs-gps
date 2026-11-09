@@ -50,6 +50,10 @@
          font: 500 14px var(--head); cursor: pointer; white-space: nowrap; flex: none; }
   .btn:hover { background: var(--g900); }
   .btn svg { width: 18px; height: 18px; fill: currentColor; }
+  .seg { display: inline-flex; padding: 3px; border-radius: 19px; background: var(--g50); flex: none; }
+  .seg button { height: 32px; padding: 0 14px; border: 0; border-radius: 16px; background: none; color: var(--ink-2); font: 500 13px var(--head); cursor: pointer; white-space: nowrap; }
+  .seg button:hover { color: var(--g900); }
+  .seg button.on { background: var(--g700); color: #fff; }
 
   /* ---------- Capa ---------- */
   .hero { background: var(--g700); color: #fff; position: relative; overflow: hidden; padding: 72px 0 120px; }
@@ -69,6 +73,7 @@
   .kpi .v { font: 500 32px/1.1 var(--head); color: var(--g700); }
   .kpi .v small { font-size: 18px; margin-left: 2px; }
   .kpi .k { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .ianote { margin: 14px 0 0; max-width: 900px; }
 
   /* ---------- Seções ---------- */
   section.s { padding: 72px 0 8px; }
@@ -85,6 +90,17 @@
   .fold > summary:hover h2 { color: var(--g700); }
   .fold > summary .sub { display: block; color: var(--muted); margin-top: 8px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+
+  /* Escopo */
+  .scope { display: grid; gap: 16px; }
+  .scope .card { padding: 22px 24px; }
+  .scope .grid2 { align-items: start; }
+  .scope h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 500; margin-bottom: 12px; }
+  .scope .goal { margin: 0; font-size: 17px; max-width: 900px; }
+  .scope ul { margin: 0; padding-left: 20px; display: grid; gap: 7px; font-size: 15px; color: var(--ink-2); }
+  .scope .mk { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .scope .in .mk { background: var(--g500); }
+  .scope .out .mk { background: #9aa0a6; }
 
   /* Fases */
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -106,33 +122,50 @@
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
 
   /* Árvore da EAP */
-  .tree-card { padding: 28px 20px 24px; overflow-x: auto; }
-  .tree { min-width: 1080px; }
-  .tree ul { display: flex; justify-content: center; margin: 0; padding: 22px 0 0; position: relative; list-style: none; }
-  .tree li { flex: 1; position: relative; padding: 22px 6px 0; text-align: center; list-style: none; }
-  .tree li::before, .tree li::after { content: ""; position: absolute; top: 0; right: 50%; width: 50%; height: 22px; border-top: 2px solid var(--g300); }
-  .tree li::after { right: auto; left: 50%; border-left: 2px solid var(--g300); }
-  .tree li:only-child::before, .tree li:only-child::after { display: none; }
-  .tree li:only-child { padding-top: 0; }
-  .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
-  .tree li:last-child::before { border-right: 2px solid var(--g300); border-radius: 0 8px 0 0; }
-  .tree li:first-child::after { border-radius: 8px 0 0 0; }
-  .tree ul ul::before { content: ""; position: absolute; top: 0; left: 50%; height: 22px; border-left: 2px solid var(--g300); }
-  .tree > ul { padding-top: 0; }
-  .node { display: inline-block; border-radius: 10px; padding: 10px 14px; font: 500 14px/1.3 var(--head); min-width: 120px; }
-  .node small { display: block; font: 400 12px var(--body); opacity: .85; margin-top: 2px; }
-  .n0 { background: var(--g900); color: #fff; font-size: 17px; padding: 12px 22px; }
-  .n1 { background: var(--g700); color: #fff; font-size: 15px; }
-  .n2 { background: var(--g500); color: #fff; }
-  .n2 { display: block; }
-  .tree .groups { list-style: none; margin: 0 0 0 14px; padding: 10px 0 0 14px; border-left: 2px solid var(--g300); text-align: left; display: block !important; }
-  .groups::before { display: none !important; }
-  .groups li { padding: 0; margin: 0 0 8px; flex: none; text-align: left; }
-  .groups li::before { content: ""; display: block !important; position: absolute; left: -14px; top: 50%; width: 12px; height: 0; border-top: 2px solid var(--g300) !important; border-right: 0 !important; border-radius: 0 !important; }
-  .groups li::after { display: none !important; }
-  .n3 { display: block; background: var(--g50); color: var(--g900); border: 1px solid var(--g100); font-size: 13px; padding: 7px 10px; min-width: 0; text-align: left; }
-  .n3 small { display: block; margin-top: 1px; }
-  .groups li:last-child { margin-bottom: 0; }
+  /* Projeto no topo, uma coluna por fase e, em cada fase, os pacotes com seus grupos. */
+  .tree-card { padding: 28px 24px 24px; }
+  .wbs { --gap: 20px; --ln: 2px solid var(--g300); }
+  .wbs-root { display: flex; justify-content: center; position: relative; padding-bottom: 24px; }
+  .wbs-root::after { content: ""; position: absolute; left: 50%; bottom: 0; height: 24px; border-left: var(--ln); }
+  .wbs-phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+  .wbs-phase { position: relative; padding-top: 24px; }
+  .wbs-phase::before { content: ""; position: absolute; top: 0; left: calc(var(--gap) / -2); right: calc(var(--gap) / -2); border-top: var(--ln); }
+  .wbs-phase:first-child::before { left: 50%; }
+  .wbs-phase:last-child::before { right: 50%; }
+  .wbs-phase::after { content: ""; position: absolute; top: 0; left: 50%; height: 24px; border-left: var(--ln); }
+  .node { border-radius: 10px; padding: 10px 16px; font: 500 14px/1.3 var(--head); }
+  .node small { font: 400 13px var(--body); opacity: .85; white-space: nowrap; }
+  .n0 { display: inline-block; background: var(--g900); color: #fff; font-size: 17px; padding: 12px 26px; text-align: center; }
+  .n0 small { display: block; margin-top: 2px; }
+  .n1 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; background: var(--g700); color: #fff; font-size: 16px; }
+  .wbs-pkgs { list-style: none; margin: 0 0 0 18px; padding: 0 0 0 20px; }
+  .wbs-pkg { position: relative; padding-top: 14px; }
+  .wbs-pkg::before { content: ""; position: absolute; left: -20px; top: 0; bottom: 0; border-left: var(--ln); }
+  .wbs-pkg:last-child::before { bottom: auto; height: 37px; }
+  .wbs-pkg::after { content: ""; position: absolute; left: -20px; top: 35px; width: 20px; border-top: var(--ln); }
+  .wbs-pkg .box { border: 1px solid var(--g100); border-radius: 12px; overflow: hidden; background: #fff; }
+  .pk-h { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; background: var(--g500); color: #fff; font: 500 14px/1.3 var(--head); }
+  .pk-h .num { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,.22); display: grid; place-items: center; font-size: 13px; flex: none; }
+  .pk-h .h, .wbs-groups .h { margin-left: auto; padding-left: 8px; white-space: nowrap; }
+  .pk-h .h { font: 400 13px var(--body); opacity: .92; }
+  .wbs-groups { list-style: none; margin: 0; padding: 2px 0; }
+  .wbs-groups > li { padding: 6px 12px; }
+  .wbs-groups > li + li { border-top: 1px dashed #e8eaed; }
+  .wbs-g, .wbs-tasks li { display: flex; align-items: baseline; gap: 8px; }
+  .wbs-g { font-size: 13.5px; color: var(--ink); }
+  .wbs-groups .nm { flex: 1; min-width: 0; }
+  .wbs-groups .code { min-width: 30px; flex: none; }
+  .wbs-g .h { font-size: 12.5px; color: var(--g700); }
+  .wbs-tasks { list-style: none; margin: 5px 0 2px 6px; padding: 0 0 0 12px; border-left: 2px solid var(--g100); }
+  .wbs-tasks li { padding: 3px 0; font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+  .wbs-tasks .code { min-width: 40px; font-size: 11px; }
+  .wbs-tasks .who { width: 16px; height: 16px; border-radius: 50%; color: #fff; font: 500 10px/16px var(--head); text-align: center; flex: none; align-self: flex-start; margin-top: 1px; }
+  .wbs-tasks .h { padding-left: 0; font-size: 12px; color: var(--muted); }
+  .wbs:not(.notasks) .wbs-g { font-weight: 500; color: var(--g900); }
+  .wbs.notasks .wbs-tasks { display: none; }
+  .tree-ctl { display: flex; justify-content: space-between; align-items: center; gap: 8px 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tree-ctl .chk { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+  .tree-ctl .chk input { width: 16px; height: 16px; accent-color: var(--g700); margin: 0; }
 
   /* Detalhamento */
   .phase-band { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 36px 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--g700); }
@@ -282,12 +315,19 @@
   @media (max-width: 1000px) {
     .kpis { grid-template-columns: repeat(3, 1fr); }
     .grid3, .pk-grid, .grid2 { grid-template-columns: 1fr; }
+    .wbs-phases { grid-template-columns: 1fr; gap: 28px; }
+    .wbs-root { padding-bottom: 16px; }
+    .wbs-root::after, .wbs-phase::before, .wbs-phase::after { display: none; }
+    .wbs-phase { padding-top: 0; }
     .gsum { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 640px) {
     .bar nav { display: none; }
     .btn .lbl { display: none; }
     .btn { padding: 0 11px; margin-left: auto; }
+    .brand > span:not(.mark) { display: none; }
+    .seg { margin-left: auto; }
+    .seg ~ .btn { margin-left: 0; }
     .kpis { grid-template-columns: repeat(2, 1fr); }
     .hero { padding: 48px 0 104px; }
     .tasks li { grid-template-columns: 1fr auto 40px; }
@@ -322,11 +362,13 @@
     </a>
     <nav id="nav">
       <a href="#inicio">Visão geral</a>
+      <a href="#escopo">Escopo</a>
       <a href="#eap">EAP</a>
       <a href="#detalhe">Atividades</a>
       <a href="#equipe">Divisão</a>
       <a href="#cronograma">Cronograma</a>
     </nav>
+    <div class="seg" id="modo" role="group" aria-label="Estimativa de horas"><button type="button" data-ia="0" title="Horas estimadas sem auxílio de IA">Sem IA</button><button type="button" data-ia="1" title="Horas estimadas com auxílio de IA">Com IA</button></div>
     <button class="btn" id="fs" title="Tela cheia"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg><span class="lbl">Tela cheia</span></button>
   </div>
 </header>
@@ -340,7 +382,77 @@
       <div class="team" id="team"></div>
     </div>
   </section>
-  <div class="wrap"><div class="kpis" id="kpis"></div></div>
+  <div class="wrap"><div class="kpis" id="kpis"></div><p class="muted small ianote" id="iaNote"></p></div>
+
+  <section class="s" id="escopo">
+    <div class="wrap">
+      <div class="s-head">
+        <h2>Escopo do projeto</h2>
+        <p>O que o projeto entrega, o que fica de fora e as decisões que orientam a EAP e o cronograma.</p>
+      </div>
+      <div class="scope">
+        <article class="card">
+          <h3>Objetivo</h3>
+          <p class="goal">Desenvolver um editor visual de imagens para a web em que o usuário monta artes com texto, imagens e formas, editando com o mouse ou pedindo alterações em linguagem natural a uma IA, com prévia ao vivo e exportação da imagem final.</p>
+        </article>
+        <div class="grid2">
+          <article class="card in">
+            <h3><span class="mk"></span>No escopo</h3>
+            <ul>
+              <li>Área de edição em canvas com prévia ao vivo de cada alteração.</li>
+              <li>Elementos de texto, imagem e forma.</li>
+              <li>Mover, redimensionar, girar, excluir, duplicar, mudar a ordem das camadas e editar propriedades.</li>
+              <li>Barra de ferramentas com atalhos, ferramenta Mão e zoom.</li>
+              <li>Histórico com desfazer, refazer e comparação antes e depois.</li>
+              <li>Salvar e abrir projeto.</li>
+              <li>Exportação da imagem em resolução cheia.</li>
+              <li>Assistente de IA: comandos em linguagem natural, conversa, resposta aparecendo aos poucos e pedidos sobre o elemento selecionado.</li>
+              <li>Sugestões automáticas de ajustes feitas pela IA.</li>
+              <li>Servidor intermediário que guarda a chave da IA, com teto de gastos e limite de uso por pessoa.</li>
+              <li>Versão de demonstração publicada para a banca.</li>
+              <li>Planejamento da avaliação: tarefas para os usuários e métricas.</li>
+              <li>Gerenciamento do projeto, monografia, apresentação e defesa.</li>
+            </ul>
+          </article>
+          <article class="card out">
+            <h3><span class="mk"></span>Fora do escopo</h3>
+            <ul>
+              <li>Remotion, vídeo e animação: a saída é sempre uma imagem estática.</li>
+              <li>Formatos e recortes de imagem prontos (4:5, 9:16 e similares).</li>
+              <li>Conta-gotas.</li>
+              <li>Painel de arquivos com fontes, paletas e logos.</li>
+              <li>Recorte inteligente do objeto da foto, como ajustar só o lanche de uma imagem.</li>
+              <li>Aplicação dos testes com usuários; está previsto apenas o planejamento da avaliação.</li>
+              <li>Uso da conta de IA do próprio usuário (chave própria ou login no OpenRouter) e integração por MCP, que ficam como trabalhos futuros.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="grid2">
+          <article class="card">
+            <h3>Decisões técnicas</h3>
+            <ul>
+              <li>HTML, CSS e JavaScript com uma biblioteca de canvas (Konva ou Fabric.js, escolhida no estudo do anteprojeto) no lugar do Remotion, que é voltado a vídeo e exigiria React, servidor Node e um navegador sem interface só para gerar uma imagem estática.</li>
+              <li>A arte inteira fica em um JSON, a fonte única do que aparece na tela e do que é exportado.</li>
+              <li>Mouse e IA alteram a arte pelas mesmas operações (adicionar texto, mover, mudar cor etc.), e o histórico é a lista dessas operações.</li>
+              <li>A IA recebe o comando, o estado da arte e a imagem, e devolve operações que são aplicadas ao vivo assim que chegam.</li>
+              <li>A IA é chamada por um servidor intermediário, para a chave não ficar no navegador. O provedor e o modelo ainda serão escolhidos.</li>
+              <li>A exportação redesenha a arte a partir do JSON, em resolução cheia, independentemente do zoom da tela.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Restrições e premissas</h3>
+            <ul>
+              <li>Equipe de duas pessoas, Arthur e Iago, trabalhando juntas em todas as fases.</li>
+              <li id="escHoras">Carga estimada calculada a partir da planilha de tarefas.</li>
+              <li>Três fases com datas de início fixas (anteprojeto, TCC I e TCC II) e dedicação semanal ajustável no gráfico de Gantt.</li>
+              <li>Custo da IA estimado em cerca de US$ 1 a 2 por mil comandos com um modelo pequeno e US$ 25 a 40 com um modelo intermediário (preços de outubro de 2026), a confirmar medindo o consumo real.</li>
+              <li>O código feito com auxílio de IA precisa ser revisado e entendido pela equipe, e o uso de IA no texto da monografia segue as regras da instituição.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="s" id="eap">
     <div class="wrap">
@@ -348,7 +460,10 @@
         <h2>EAP do projeto</h2>
         <p>Decomposição do projeto em fases, pacotes de trabalho e grupos de atividades, com a carga horária de cada nível.</p>
       </div>
-      <div class="card tree-card"><div class="tree" id="tree"></div></div>
+      <div class="card tree-card">
+        <div class="tree-ctl"><div class="legend" id="legend0"></div><label class="chk"><input type="checkbox" id="tTasks" checked>Mostrar tarefas</label></div>
+        <div class="wbs" id="tree"></div>
+      </div>
       <div class="grid3" id="phaseCards" style="margin-top:16px"></div>
     </div>
   </section>
@@ -420,110 +535,160 @@
 <!-- Cópias incorporadas dos arquivos (usadas quando a página é aberta direto do disco).
      Servindo a pasta por HTTP, a página lê divisao-tarefas.csv e mermaid.mmd ao vivo. -->
 <script type="text/plain" id="csv-embed">
-Nome,Tempo (h),Dono
-Delimitar funcionalidades,4 h,Iago
-Registrar exclusões e restrições,4 h,Arthur
-Pesquisar soluções existentes,6 h,Arthur
-Identificar comandos de edição,6 h,Iago
-Comparar alternativas de integração,4 h,Arthur
-Documentar resultados,4 h,Iago
-Estudar documentação e APIs,6 h,Arthur
-Executar exemplo básico,6 h,Arthur
-Registrar recursos e limitações,4 h,Iago
-Levantar requisitos funcionais,6 h,Iago
-Definir requisitos não funcionais,4 h,Arthur
-Revisar e priorizar requisitos,2 h,Iago
-Identificar atores e casos,2 h,Iago
-Desenhar diagrama,4 h,Arthur
-Identificar módulos,4 h,Arthur
-Definir responsabilidades,4 h,Arthur
-Revisar dependências,2 h,Iago
-Desenhar wireframe,4 h,Iago
-Definir painéis e ferramentas,4 h,Iago
-Definir fluxo de interação,4 h,Arthur
-Definir estrutura da composição,4 h,Arthur
-Definir interface de integração,4 h,Arthur
-Documentar fluxo de dados,2 h,Iago
-Definir modelo de estado,4 h,Arthur
-Definir operações de alteração,4 h,Arthur
-Validar sincronização prevista,2 h,Iago
-Criar repositório e projeto,4 h,Arthur
-Instalar dependências e testar,4 h,Arthur
-Criar configuração de contêiner,4 h,Arthur
-Validar execução e documentar,2 h,Iago
-Criar estrutura do canvas,6 h,Iago
-Implementar layout responsivo,6 h,Iago
-Implementar área de prévia,6 h,Arthur
-Testar interação e layout,6 h,Iago
-Definir propriedades dos elementos,4 h,Arthur
-Implementar elemento de texto,6 h,Arthur
-Implementar elemento de imagem,6 h,Arthur
-Testar criação e seleção,4 h,Iago
-Implementar movimentação,6 h,Iago
-Implementar redimensionamento,6 h,Arthur
-Implementar rotação,4 h,Arthur
-Implementar controles de propriedades,4 h,Iago
-Definir comandos suportados,6 h,Iago
-Implementar entrada textual,4 h,Iago
-Implementar interpretação,8 h,Arthur
-Converter comandos em operações,6 h,Arthur
-Testar comandos e erros,6 h,Iago
-Converter estado em composição,6 h,Arthur
-Integrar prévia do Remotion,6 h,Arthur
-Implementar atualização da prévia,6 h,Arthur
-Testar renderização e exportação,6 h,Iago
-Preparar identificação e estrutura,4 h,Iago
-Redigir resumo e palavras-chave,4 h,Iago
-Redigir introdução,6 h,Iago
-Redigir justificativa e objetivos,6 h,Iago
-Redigir fundamentação teórica,8 h,Iago
-Descrever metodologia,6 h,Iago
-Documentar implementação,8 h,Arthur
-Redigir resultados e conclusão,6 h,Iago
-Organizar referências,6 h,Arthur
-Preparar apêndices e anexos,4 h,Iago
-Revisar coerência e linguagem,6 h,Iago
-Verificar citações e referências,4 h,Arthur
-Aplicar formatação institucional,4 h,Iago
-Conferir versão final,2 h,Arthur
-Executar testes finais,4 h,Arthur
-Corrigir falhas prioritárias,4 h,Arthur
-Limpar e organizar código,4 h,Arthur
-Preparar instruções de execução,4 h,Iago
-Validar entrega e arquivos,4 h,Arthur
-Preparar roteiro dos slides,4 h,Iago
-Montar slides,4 h,Iago
-Ensaiar demonstração,2 h,Arthur
-Apresentar e demonstrar,2 h,Iago
-Apresentar e responder à banca,2 h,Arthur
+Nome,Tempo (h),Dono,Com IA (h)
+Elaborar EAP e divisão de tarefas,4 h,Arthur,2 h
+Montar cronograma,2 h,Iago,1 h
+Reunir com o orientador no anteprojeto,2 h,Iago,2 h
+Delimitar funcionalidades,4 h,Iago,3 h
+Registrar exclusões e restrições,4 h,Arthur,3 h
+Pesquisar soluções existentes,6 h,Arthur,"3,5 h"
+Identificar comandos de edição,6 h,Iago,"4,5 h"
+Comparar provedores e modelos de IA,4 h,Arthur,"2,5 h"
+Estimar custo de uso da IA,4 h,Arthur,"2,5 h"
+Documentar resultados,4 h,Iago,3 h
+Comparar bibliotecas de canvas,4 h,Iago,"2,5 h"
+Estudar documentação e APIs,6 h,Arthur,"3,5 h"
+Executar exemplo de edição e exportação,6 h,Arthur,3 h
+Registrar recursos e limitações,4 h,Iago,"2,5 h"
+Levantar requisitos funcionais,6 h,Iago,"4,5 h"
+Definir requisitos não funcionais,4 h,Arthur,3 h
+Revisar e priorizar requisitos,2 h,Iago,"1,5 h"
+Identificar atores e casos,2 h,Iago,"1,5 h"
+Desenhar diagrama,4 h,Arthur,3 h
+Definir tarefas para os usuários,4 h,Iago,3 h
+Definir métricas de avaliação,2 h,Arthur,"1,5 h"
+Identificar módulos,4 h,Arthur,3 h
+Definir responsabilidades,4 h,Arthur,3 h
+Revisar dependências,2 h,Iago,"1,5 h"
+Desenhar wireframe,4 h,Iago,3 h
+Definir painéis e ferramentas,4 h,Iago,3 h
+Definir fluxo de interação,4 h,Arthur,3 h
+Definir estrutura das camadas,4 h,Arthur,3 h
+Definir estratégia de exportação,4 h,Arthur,3 h
+Documentar fluxo de dados,2 h,Iago,"1,5 h"
+Definir modelo de estado,4 h,Arthur,3 h
+Definir operações de alteração,4 h,Arthur,3 h
+Definir histórico de operações,2 h,Iago,"1,5 h"
+Validar sincronização prevista,2 h,Iago,"1,5 h"
+Definir ferramentas expostas à IA,4 h,Iago,3 h
+Definir servidor intermediário,4 h,Arthur,3 h
+Documentar fluxo dos comandos,2 h,Iago,"1,5 h"
+Reunir com o orientador no TCC I,4 h,Iago,4 h
+Atualizar cronograma do TCC I,2 h,Arthur,"1,5 h"
+Registrar decisões do projeto,2 h,Arthur,"1,5 h"
+Criar repositório e projeto,4 h,Arthur,2 h
+Instalar dependências e testar,4 h,Arthur,2 h
+Criar função do servidor intermediário,4 h,Arthur,2 h
+Configurar chave e limite de gastos,2 h,Arthur,1 h
+Validar chamada de teste à IA,2 h,Iago,"1,5 h"
+Criar estrutura do canvas,6 h,Iago,3 h
+Implementar layout responsivo,6 h,Iago,3 h
+Implementar área de prévia,6 h,Arthur,3 h
+Testar interação e layout,6 h,Iago,"4,5 h"
+Definir propriedades dos elementos,4 h,Arthur,3 h
+Implementar elemento de texto,6 h,Arthur,3 h
+Implementar elemento de imagem,6 h,Arthur,3 h
+Implementar elemento de forma,4 h,Iago,2 h
+Testar criação e seleção,4 h,Iago,3 h
+Implementar movimentação,6 h,Iago,3 h
+Implementar redimensionamento,6 h,Arthur,3 h
+Implementar rotação,4 h,Arthur,2 h
+Implementar excluir e duplicar,2 h,Iago,1 h
+Implementar ordem das camadas,2 h,Arthur,1 h
+Implementar controles de propriedades,4 h,Iago,2 h
+Implementar barra de ferramentas e atalhos,4 h,Iago,2 h
+Implementar ferramenta Mão e zoom,4 h,Iago,2 h
+Testar ferramentas,2 h,Iago,"1,5 h"
+Implementar registro de operações,4 h,Arthur,2 h
+Implementar desfazer e refazer,4 h,Iago,2 h
+Implementar comparação antes e depois,2 h,Iago,1 h
+Testar histórico,2 h,Arthur,"1,5 h"
+Implementar salvamento automático no navegador,2 h,Iago,1 h
+Implementar abrir e salvar arquivo do projeto,2 h,Arthur,1 h
+Testar salvar e abrir projeto,2 h,Iago,"1,5 h"
+Renderizar estado no canvas,6 h,Arthur,3 h
+Implementar atualização ao vivo da prévia,6 h,Arthur,3 h
+Implementar exportação da imagem,6 h,Iago,3 h
+Testar renderização e exportação,6 h,Iago,"4,5 h"
+Definir comandos suportados,6 h,Iago,"4,5 h"
+Implementar entrada textual,4 h,Iago,2 h
+Implementar interpretação,8 h,Arthur,4 h
+Converter comandos em operações,6 h,Arthur,3 h
+Registrar consumo de tokens,2 h,Arthur,1 h
+Testar comandos e erros,6 h,Iago,"4,5 h"
+Implementar histórico da conversa,2 h,Iago,1 h
+Exibir resposta da IA aos poucos,2 h,Arthur,1 h
+Implementar pedido à IA sobre o elemento selecionado,2 h,Iago,1 h
+Testar painel do assistente,2 h,Arthur,"1,5 h"
+Definir tipos de sugestão,2 h,Iago,"1,5 h"
+Gerar sugestões com a IA,6 h,Arthur,3 h
+Implementar painel de sugestões,4 h,Iago,2 h
+Testar sugestões,2 h,Iago,"1,5 h"
+Reunir com o orientador no TCC II,4 h,Arthur,4 h
+Registrar lições aprendidas,2 h,Iago,"1,5 h"
+Preparar identificação e estrutura,4 h,Iago,3 h
+Redigir resumo e palavras-chave,4 h,Iago,3 h
+Redigir introdução,6 h,Iago,"4,5 h"
+Redigir justificativa e objetivos,6 h,Iago,"4,5 h"
+Redigir fundamentação teórica,8 h,Iago,6 h
+Descrever metodologia,6 h,Iago,"4,5 h"
+Documentar implementação,8 h,Arthur,6 h
+Redigir resultados e conclusão,6 h,Iago,"4,5 h"
+Organizar referências,6 h,Arthur,3 h
+Preparar apêndices e anexos,4 h,Iago,3 h
+Revisar coerência e linguagem,6 h,Iago,3 h
+Verificar citações e referências,4 h,Arthur,4 h
+Aplicar formatação institucional,4 h,Iago,2 h
+Conferir versão final,2 h,Arthur,2 h
+Executar testes finais,4 h,Arthur,3 h
+Corrigir falhas prioritárias,4 h,Arthur,2 h
+Limpar e organizar código,4 h,Arthur,2 h
+Preparar instruções de execução,4 h,Iago,3 h
+Validar entrega e arquivos,4 h,Arthur,3 h
+Publicar editor e servidor intermediário,2 h,Arthur,1 h
+Limitar uso por pessoa,2 h,Arthur,1 h
+Testar a versão publicada,2 h,Iago,"1,5 h"
+Preparar roteiro dos slides,4 h,Iago,3 h
+Montar slides,4 h,Iago,2 h
+Ensaiar demonstração,2 h,Arthur,2 h
+Apresentar e demonstrar,2 h,Iago,2 h
+Apresentar e responder à banca,2 h,Arthur,2 h
 </script>
 
 <script type="text/plain" id="mmd-embed">
 flowchart TB
-    P["EDITOR VISUAL DE IMAGENS<br/>344h de atividades detalhadas"]
+    P["EDITOR VISUAL DE IMAGENS<br/>460h de atividades detalhadas"]
 
-    P --> AP["ANTEPROJETO<br/>104h"]
-    P --> T1["TCC I<br/>132h"]
-    P --> T2["TCC II<br/>108h"]
+    P --> AP["ANTEPROJETO<br/>138h"]
+    P --> T1["TCC I<br/>202h"]
+    P --> T2["TCC II<br/>120h"]
 
     %% ========== ANTEPROJETO ==========
-    AP --> PES["1. PESQUISAS<br/>62h"]
-    AP --> ARQ["2. ARQUITETURA<br/>42h"]
+    AP --> GAP["1. GERENCIAMENTO DO ANTEPROJETO<br/>8h"]
+    AP --> PES["2. PESQUISAS<br/>76h"]
+    AP --> ARQ["3. ARQUITETURA<br/>54h"]
+
+    GAP --> G1["Planejamento do projeto — 8h"]
+    G1 --> G11["Elaborar EAP e divisão de tarefas — 4h<br/>Arthur"]
+    G1 --> G12["Montar cronograma — 2h<br/>Iago"]
+    G1 --> G13["Reunir com o orientador no anteprojeto — 2h<br/>Iago"]
 
     PES --> P1["Escopo — 8h"]
     P1 --> P11["Delimitar funcionalidades — 4h<br/>Iago"]
     P1 --> P12["Registrar exclusões e restrições — 4h<br/>Arthur"]
 
-    PES --> P2["Linguagem natural e IA — 20h"]
+    PES --> P2["Linguagem natural e IA — 24h"]
     P2 --> P21["Pesquisar soluções existentes — 6h<br/>Arthur"]
     P2 --> P22["Identificar comandos de edição — 6h<br/>Iago"]
-    P2 --> P23["Comparar alternativas de integração — 4h<br/>Arthur"]
-    P2 --> P24["Documentar resultados — 4h<br/>Iago"]
+    P2 --> P23["Comparar provedores e modelos de IA — 4h<br/>Arthur"]
+    P2 --> P24["Estimar custo de uso da IA — 4h<br/>Arthur"]
+    P2 --> P25["Documentar resultados — 4h<br/>Iago"]
 
-    PES --> P3["Estudo do Remotion — 16h"]
-    P3 --> P31["Estudar documentação e APIs — 6h<br/>Arthur"]
-    P3 --> P32["Executar exemplo básico — 6h<br/>Arthur"]
-    P3 --> P33["Registrar recursos e limitações — 4h<br/>Iago"]
+    PES --> P3["Estudo da biblioteca de canvas — 20h"]
+    P3 --> P31["Comparar bibliotecas de canvas — 4h<br/>Iago"]
+    P3 --> P32["Estudar documentação e APIs — 6h<br/>Arthur"]
+    P3 --> P33["Executar exemplo de edição e exportação — 6h<br/>Arthur"]
+    P3 --> P34["Registrar recursos e limitações — 4h<br/>Iago"]
 
     PES --> P4["Requisitos — 12h"]
     P4 --> P41["Levantar requisitos funcionais — 6h<br/>Iago"]
@@ -533,6 +698,10 @@ flowchart TB
     PES --> P5["Casos de uso — 6h"]
     P5 --> P51["Identificar atores e casos — 2h<br/>Iago"]
     P5 --> P52["Desenhar diagrama — 4h<br/>Arthur"]
+
+    PES --> P6["Planejamento da avaliação — 6h"]
+    P6 --> P61["Definir tarefas para os usuários — 4h<br/>Iago"]
+    P6 --> P62["Definir métricas de avaliação — 2h<br/>Arthur"]
 
     ARQ --> A1["Módulos do editor — 10h"]
     A1 --> A11["Identificar módulos — 4h<br/>Arthur"]
@@ -544,27 +713,40 @@ flowchart TB
     A2 --> A22["Definir painéis e ferramentas — 4h<br/>Iago"]
     A2 --> A23["Definir fluxo de interação — 4h<br/>Arthur"]
 
-    ARQ --> A3["Comunicação com Remotion — 10h"]
-    A3 --> A31["Definir estrutura da composição — 4h<br/>Arthur"]
-    A3 --> A32["Definir interface de integração — 4h<br/>Arthur"]
+    ARQ --> A3["Renderização no canvas — 10h"]
+    A3 --> A31["Definir estrutura das camadas — 4h<br/>Arthur"]
+    A3 --> A32["Definir estratégia de exportação — 4h<br/>Arthur"]
     A3 --> A33["Documentar fluxo de dados — 2h<br/>Iago"]
 
-    ARQ --> A4["Atualização do estado — 10h"]
+    ARQ --> A4["Estado e histórico — 12h"]
     A4 --> A41["Definir modelo de estado — 4h<br/>Arthur"]
     A4 --> A42["Definir operações de alteração — 4h<br/>Arthur"]
-    A4 --> A43["Validar sincronização prevista — 2h<br/>Iago"]
+    A4 --> A43["Definir histórico de operações — 2h<br/>Iago"]
+    A4 --> A44["Validar sincronização prevista — 2h<br/>Iago"]
+
+    ARQ --> A5["Integração com a IA — 10h"]
+    A5 --> A51["Definir ferramentas expostas à IA — 4h<br/>Iago"]
+    A5 --> A52["Definir servidor intermediário — 4h<br/>Arthur"]
+    A5 --> A53["Documentar fluxo dos comandos — 2h<br/>Iago"]
 
     %% ========== TCC I ==========
-    T1 --> AMB["3. PREPARAÇÃO DO AMBIENTE<br/>14h"]
-    T1 --> DEV["4. IMPLEMENTAÇÃO<br/>118h"]
+    T1 --> GT1["4. GERENCIAMENTO DO TCC I<br/>8h"]
+    T1 --> AMB["5. PREPARAÇÃO DO AMBIENTE<br/>16h"]
+    T1 --> DEV["6. IMPLEMENTAÇÃO<br/>178h"]
+
+    GT1 --> G2["Acompanhamento do TCC I — 8h"]
+    G2 --> G21["Reunir com o orientador no TCC I — 4h<br/>Iago"]
+    G2 --> G22["Atualizar cronograma do TCC I — 2h<br/>Arthur"]
+    G2 --> G23["Registrar decisões do projeto — 2h<br/>Arthur"]
 
     AMB --> E1["Ambiente — 8h"]
     E1 --> E11["Criar repositório e projeto — 4h<br/>Arthur"]
     E1 --> E12["Instalar dependências e testar — 4h<br/>Arthur"]
 
-    AMB --> E2["Contêineres — 6h"]
-    E2 --> E21["Criar configuração de contêiner — 4h<br/>Arthur"]
-    E2 --> E22["Validar execução e documentar — 2h<br/>Iago"]
+    AMB --> E2["Servidor intermediário — 8h"]
+    E2 --> E21["Criar função do servidor intermediário — 4h<br/>Arthur"]
+    E2 --> E22["Configurar chave e limite de gastos — 2h<br/>Arthur"]
+    E2 --> E23["Validar chamada de teste à IA — 2h<br/>Iago"]
 
     DEV --> D1["Área de composição — 24h"]
     D1 --> D11["Criar estrutura do canvas — 6h<br/>Iago"]
@@ -572,34 +754,71 @@ flowchart TB
     D1 --> D13["Implementar área de prévia — 6h<br/>Arthur"]
     D1 --> D14["Testar interação e layout — 6h<br/>Iago"]
 
-    DEV --> D2["Elementos editáveis — 20h"]
+    DEV --> D2["Elementos editáveis — 24h"]
     D2 --> D21["Definir propriedades dos elementos — 4h<br/>Arthur"]
     D2 --> D22["Implementar elemento de texto — 6h<br/>Arthur"]
     D2 --> D23["Implementar elemento de imagem — 6h<br/>Arthur"]
-    D2 --> D24["Testar criação e seleção — 4h<br/>Iago"]
+    D2 --> D24["Implementar elemento de forma — 4h<br/>Iago"]
+    D2 --> D25["Testar criação e seleção — 4h<br/>Iago"]
 
-    DEV --> D3["Controles de edição — 20h"]
+    DEV --> D3["Controles de edição — 24h"]
     D3 --> D31["Implementar movimentação — 6h<br/>Iago"]
     D3 --> D32["Implementar redimensionamento — 6h<br/>Arthur"]
     D3 --> D33["Implementar rotação — 4h<br/>Arthur"]
-    D3 --> D34["Implementar controles de propriedades — 4h<br/>Iago"]
+    D3 --> D34["Implementar excluir e duplicar — 2h<br/>Iago"]
+    D3 --> D35["Implementar ordem das camadas — 2h<br/>Arthur"]
+    D3 --> D36["Implementar controles de propriedades — 4h<br/>Iago"]
 
-    DEV --> D4["Linguagem natural — 30h"]
-    D4 --> D41["Definir comandos suportados — 6h<br/>Iago"]
-    D4 --> D42["Implementar entrada textual — 4h<br/>Iago"]
-    D4 --> D43["Implementar interpretação — 8h<br/>Arthur"]
-    D4 --> D44["Converter comandos em operações — 6h<br/>Arthur"]
-    D4 --> D45["Testar comandos e erros — 6h<br/>Iago"]
+    DEV --> D4["Ferramentas — 10h"]
+    D4 --> D41["Implementar barra de ferramentas e atalhos — 4h<br/>Iago"]
+    D4 --> D42["Implementar ferramenta Mão e zoom — 4h<br/>Iago"]
+    D4 --> D43["Testar ferramentas — 2h<br/>Iago"]
 
-    DEV --> D5["Visualização e renderização — 24h"]
-    D5 --> D51["Converter estado em composição — 6h<br/>Arthur"]
-    D5 --> D52["Integrar prévia do Remotion — 6h<br/>Arthur"]
-    D5 --> D53["Implementar atualização da prévia — 6h<br/>Arthur"]
-    D5 --> D54["Testar renderização e exportação — 6h<br/>Iago"]
+    DEV --> D5["Histórico de edições — 12h"]
+    D5 --> D51["Implementar registro de operações — 4h<br/>Arthur"]
+    D5 --> D52["Implementar desfazer e refazer — 4h<br/>Iago"]
+    D5 --> D53["Implementar comparação antes e depois — 2h<br/>Iago"]
+    D5 --> D54["Testar histórico — 2h<br/>Arthur"]
+
+    DEV --> D6["Salvar e abrir projeto — 6h"]
+    D6 --> D61["Implementar salvamento automático no navegador — 2h<br/>Iago"]
+    D6 --> D62["Implementar abrir e salvar arquivo do projeto — 2h<br/>Arthur"]
+    D6 --> D63["Testar salvar e abrir projeto — 2h<br/>Iago"]
+
+    DEV --> D7["Prévia e exportação — 24h"]
+    D7 --> D71["Renderizar estado no canvas — 6h<br/>Arthur"]
+    D7 --> D72["Implementar atualização ao vivo da prévia — 6h<br/>Arthur"]
+    D7 --> D73["Implementar exportação da imagem — 6h<br/>Iago"]
+    D7 --> D74["Testar renderização e exportação — 6h<br/>Iago"]
+
+    DEV --> D8["Linguagem natural — 32h"]
+    D8 --> D81["Definir comandos suportados — 6h<br/>Iago"]
+    D8 --> D82["Implementar entrada textual — 4h<br/>Iago"]
+    D8 --> D83["Implementar interpretação — 8h<br/>Arthur"]
+    D8 --> D84["Converter comandos em operações — 6h<br/>Arthur"]
+    D8 --> D85["Registrar consumo de tokens — 2h<br/>Arthur"]
+    D8 --> D86["Testar comandos e erros — 6h<br/>Iago"]
+
+    DEV --> D9["Painel do assistente — 8h"]
+    D9 --> D91["Implementar histórico da conversa — 2h<br/>Iago"]
+    D9 --> D92["Exibir resposta da IA aos poucos — 2h<br/>Arthur"]
+    D9 --> D93["Implementar pedido à IA sobre o elemento selecionado — 2h<br/>Iago"]
+    D9 --> D94["Testar painel do assistente — 2h<br/>Arthur"]
+
+    DEV --> D10["Sugestões automáticas — 14h"]
+    D10 --> D101["Definir tipos de sugestão — 2h<br/>Iago"]
+    D10 --> D102["Gerar sugestões com a IA — 6h<br/>Arthur"]
+    D10 --> D103["Implementar painel de sugestões — 4h<br/>Iago"]
+    D10 --> D104["Testar sugestões — 2h<br/>Iago"]
 
     %% ========== TCC II ==========
-    T2 --> DOC["5. DOCUMENTAÇÃO<br/>74h"]
-    T2 --> FIN["6. FINALIZAÇÃO<br/>34h"]
+    T2 --> GT2["7. GERENCIAMENTO DO TCC II<br/>6h"]
+    T2 --> DOC["8. DOCUMENTAÇÃO<br/>74h"]
+    T2 --> FIN["9. FINALIZAÇÃO<br/>40h"]
+
+    GT2 --> G3["Acompanhamento do TCC II — 6h"]
+    G3 --> G31["Reunir com o orientador no TCC II — 4h<br/>Arthur"]
+    G3 --> G32["Registrar lições aprendidas — 2h<br/>Iago"]
 
     DOC --> C1["Pré-textuais — 8h"]
     C1 --> C11["Preparar identificação e estrutura — 4h<br/>Iago"]
@@ -632,14 +851,19 @@ flowchart TB
     F2 --> F22["Preparar instruções de execução — 4h<br/>Iago"]
     F2 --> F23["Validar entrega e arquivos — 4h<br/>Arthur"]
 
-    FIN --> F3["Apresentação — 10h"]
-    F3 --> F31["Preparar roteiro dos slides — 4h<br/>Iago"]
-    F3 --> F32["Montar slides — 4h<br/>Iago"]
-    F3 --> F33["Ensaiar demonstração — 2h<br/>Arthur"]
+    FIN --> F3["Publicação da demonstração — 6h"]
+    F3 --> F31["Publicar editor e servidor intermediário — 2h<br/>Arthur"]
+    F3 --> F32["Limitar uso por pessoa — 2h<br/>Arthur"]
+    F3 --> F33["Testar a versão publicada — 2h<br/>Iago"]
 
-    FIN --> F4["Defesa — 4h"]
-    F4 --> F41["Apresentar e demonstrar — 2h<br/>Iago"]
-    F4 --> F42["Apresentar e responder à banca — 2h<br/>Arthur"]
+    FIN --> F4["Apresentação — 10h"]
+    F4 --> F41["Preparar roteiro dos slides — 4h<br/>Iago"]
+    F4 --> F42["Montar slides — 4h<br/>Iago"]
+    F4 --> F43["Ensaiar demonstração — 2h<br/>Arthur"]
+
+    FIN --> F5["Defesa — 4h"]
+    F5 --> F51["Apresentar e demonstrar — 2h<br/>Iago"]
+    F5 --> F52["Apresentar e responder à banca — 2h<br/>Arthur"]
 
     %% ========== ESTILOS ==========
     %% "default" pinta todas as tarefas (folhas); as demais classes sobrescrevem
@@ -651,8 +875,8 @@ flowchart TB
 
     class P root
     class AP,T1,T2 phase
-    class PES,ARQ,AMB,DEV,DOC,FIN package
-    class P1,P2,P3,P4,P5,A1,A2,A3,A4,E1,E2,D1,D2,D3,D4,D5,C1,C2,C3,C4,F1,F2,F3,F4 group
+    class GAP,PES,ARQ,GT1,AMB,DEV,GT2,DOC,FIN package
+    class G1,P1,P2,P3,P4,P5,P6,A1,A2,A3,A4,A5,G2,E1,E2,D1,D2,D3,D4,D5,D6,D7,D8,D9,D10,G3,C1,C2,C3,C4,F1,F2,F3,F4,F5 group
 </script>
 
 <script>
@@ -737,9 +961,10 @@ flowchart TB
 
   /* ================= Modelo ================= */
   const M = {};
+  const EST = { ia: false }; // true: usa a coluna "Com IA (h)" da planilha no lugar de "Tempo (h)"
   function buildModel(csvText, mmdText) {
     const csv = parseCSV(csvText).slice(1).filter(r => r[0]);
-    const csvMap = new Map(csv.map(r => [r[0], { h: hoursOf(r[1]), owner: r[2] || '—' }]));
+    const csvMap = new Map(csv.map(r => [r[0], { h: hoursOf(r[1]), ia: r[3] ? hoursOf(r[3]) : hoursOf(r[1]), owner: r[2] || '—' }]));
     const root = parseMermaid(mmdText);
     const tasks = [], phases = [], packages = [], groups = [], notes = [], used = new Set();
 
@@ -751,11 +976,12 @@ flowchart TB
           used.add(n.name);
           if (n.owner && c.owner !== n.owner) n.note = `Responsável divergente: a planilha (divisao-tarefas.csv) indica ${c.owner}; o diagrama (mermaid.mmd) indica ${n.owner}. Foi considerada a planilha.`;
           if (n.hours != null && c.h !== n.hours) n.note = (n.note ? n.note + ' ' : '') + `Horas divergentes: planilha ${H(c.h)}, diagrama ${H(n.hours)}.`;
-          n.owner = c.owner; n.hours = c.h;
+          n.owner = c.owner; n.base = c.h; n.ia = c.ia;
         } else {
           n.note = 'Tarefa presente no diagrama, mas ausente na planilha divisao-tarefas.csv.';
-          n.hours = n.hours || 0; n.owner = n.owner || '—';
+          n.base = n.ia = n.hours || 0; n.owner = n.owner || '—';
         }
+        n.hours = EST.ia ? n.ia : n.base;
         if (n.note) notes.push({ name: n.name, text: n.note });
         tasks.push({ node: n, name: n.name, h: n.hours, owner: n.owner, code, group: ctx.group, pkg: ctx.pkg, phase: ctx.phase });
         return n.hours;
@@ -765,8 +991,9 @@ flowchart TB
       if (n.depth === 2) { next.pkg = n; packages.push(n); }
       if (n.depth === 3) { next.group = n; groups.push(n); }
       const total = sum(n.kids.map((k, i) => walk(k, next, k.depth === 2 ? String(k.num ?? '') : (k.depth >= 3 ? (code ? code + '.' : '') + (i + 1) : ''))));
-      if (n.hours != null && n.hours !== total) notes.push({ name: n.name, text: `O diagrama informa ${H(n.hours)} para “${n.name}”, mas a soma das tarefas é ${H(total)}.` });
-      n.hours = total;
+      const base = sum(n.kids.map(k => k.base)); // o diagrama traz as horas sem IA
+      if (n.hours != null && n.hours !== base) notes.push({ name: n.name, text: `O diagrama informa ${H(n.hours)} para “${n.name}”, mas a soma das tarefas é ${H(base)}.` });
+      n.hours = total; n.base = base;
       return total;
     })(root, {}, '');
 
@@ -778,6 +1005,8 @@ flowchart TB
 
     Object.assign(M, { root, tasks, phases, packages, groups, notes, people, color });
     M.total = sum(tasks.map(t => t.h));
+    M.totalBase = sum(tasks.map(t => t.node.base));
+    M.totalIA = sum(tasks.map(t => t.node.ia));
     M.under = node => tasks.filter(t => t.phase === node || t.pkg === node || t.group === node || node === root);
     M.hoursOf = (node, p) => sum(M.under(node).filter(t => !p || t.owner === p).map(t => t.h));
     M.byPerson = p => tasks.filter(t => t.owner === p);
@@ -829,10 +1058,15 @@ flowchart TB
     const label = n => (n.num != null ? n.num + '. ' : '') + n.name;
 
     // Capa
-    $('#lead').textContent = `Estrutura analítica do projeto (EAP) e divisão de tarefas: ${H(TOT)} de trabalho distribuídas entre ${M.phases.map(p => p.name).join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
+    $('#lead').textContent = `Estrutura analítica do projeto (EAP) e divisão de tarefas: ${H(TOT)} de trabalho${EST.ia ? ' com auxílio de IA' : ''} distribuídas entre ${M.phases.map(p => p.name).join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
+    document.querySelectorAll('#modo button').forEach(b => { const on = (b.dataset.ia === '1') === EST.ia; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+    $('#escHoras').textContent = `Carga estimada de ${H(M.totalBase)} sem IA e ${H(M.totalIA)} com auxílio de IA, que a equipe vai usar no desenvolvimento e na escrita.`;
+    $('#iaNote').textContent = EST.ia
+      ? `Horas estimadas com auxílio de IA (sem IA: ${H(M.totalBase)}). O tempo de cada tarefa foi reduzido conforme o tipo: código e configuração pela metade; revisão de texto, formatação e slides pela metade; pesquisa e estudo para 60%; análise, projeto, escrita e testes para 75%; reuniões, apresentações e verificações finais sem redução. Os valores ficam na coluna “Com IA (h)” da planilha e podem ser ajustados tarefa a tarefa.`
+      : `Horas estimadas sem auxílio de IA. Com auxílio de IA, a estimativa cai para ${H(M.totalIA)}; escolha “Com IA” no topo da página para ver as horas e o cronograma nesse cenário.`;
     $('#team').innerHTML = M.people.map(p => `<span class="member">${avatar(p)}${esc(p)}</span>`).join('');
     const kpis = [
-      [Hs(TOT), 'carga horária total'], [T, 'tarefas'], [M.phases.length, 'fases'],
+      [Hs(TOT), EST.ia ? 'carga horária com IA' : 'carga horária total'], [T, 'tarefas'], [M.phases.length, 'fases'],
       [M.packages.length, 'pacotes de trabalho'], [M.groups.length, 'grupos de atividades'], [Hs(+(TOT / T).toFixed(1)), 'média por tarefa'],
     ];
     $('#kpis').innerHTML = kpis.map(([v, k]) => `<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('');
@@ -849,10 +1083,18 @@ flowchart TB
       </article>`).join('');
 
     // Árvore
-    const groupsUl = pk => `<ul class="groups">${pk.kids.map(g => `<li><span class="node n3">${esc(g.code)} ${esc(g.name)}<small>${H(g.hours)}</small></span></li>`).join('')}</ul>`;
-    $('#tree').innerHTML = `<ul><li><span class="node n0">Editor Visual de Imagens<small>${H(TOT)}</small></span>
-      <ul>${M.phases.map(ph => `<li><span class="node n1">${esc(ph.name)}<small>${H(ph.hours)}</small></span>
-        <ul>${ph.kids.map(pk => `<li><span class="node n2">${esc(label(pk))}<small>${H(pk.hours)}</small></span>${groupsUl(pk)}</li>`).join('')}</ul></li>`).join('')}</ul></li></ul>`;
+    const tasksUl = g => `<ul class="wbs-tasks">${g.kids.map(t => {
+      const k = M.color[t.owner] || M.color['—'];
+      return `<li><span class="code">${esc(t.code)}</span><span class="nm">${esc(t.name)}${t.note ? warn(t.note) : ''}</span><span class="who" style="background:${k.color}" title="${esc(t.owner)}">${esc(t.owner[0])}</span><span class="h">${H(t.hours)}</span></li>`;
+    }).join('')}</ul>`;
+    const groupsUl = pk => `<ul class="wbs-groups">${pk.kids.map(g => `<li><div class="wbs-g"><span class="code">${esc(g.code)}</span><span class="nm">${esc(g.name)}</span><span class="h">${H(g.hours)}</span></div>${tasksUl(g)}</li>`).join('')}</ul>`;
+    $('#legend0').innerHTML = legendHTML();
+    $('#tree').innerHTML = `<div class="wbs-root"><span class="node n0">Editor Visual de Imagens<small>${H(TOT)}</small></span></div>
+      <div class="wbs-phases">${M.phases.map(ph => `<section class="wbs-phase">
+        <div class="node n1"><span>${esc(ph.name)}</span><small>${H(ph.hours)}</small></div>
+        <ol class="wbs-pkgs">${ph.kids.map(pk => `<li class="wbs-pkg"><div class="box">
+          <div class="pk-h"><span class="num">${esc(pk.num ?? '')}</span><span>${esc(pk.name)}</span><span class="h">${H(pk.hours)}</span></div>
+          ${groupsUl(pk)}</div></li>`).join('')}</ol></section>`).join('')}</div>`;
 
     // Detalhamento
     $('#legend1').innerHTML = legendHTML();
@@ -1197,11 +1439,31 @@ flowchart TB
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => { if (en.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id)); });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['inicio', 'eap', 'detalhe', 'equipe', 'cronograma'].forEach(id => io.observe(document.getElementById(id)));
+  ['inicio', 'escopo', 'eap', 'detalhe', 'equipe', 'cronograma'].forEach(id => io.observe(document.getElementById(id)));
+
+  // A árvore da EAP mostra as tarefas de cada grupo; a caixa permite voltar à visão só com os grupos.
+  const tTasks = $('#tTasks');
+  tTasks.checked = store.get('eap-tarefas') !== false;
+  $('#tree').classList.toggle('notasks', !tTasks.checked);
+  tTasks.addEventListener('change', () => { $('#tree').classList.toggle('notasks', !tTasks.checked); store.set('eap-tarefas', tTasks.checked); });
+
+  // Alterna entre as horas sem IA e com auxílio de IA, recalculando a página e o cronograma.
+  const SRC = {};
+  $('#modo').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b || !SRC.csv || (b.dataset.ia === '1') === EST.ia) return;
+    EST.ia = b.dataset.ia === '1';
+    store.set('estimativa-ia', EST.ia);
+    buildModel(SRC.csv, SRC.mmd);
+    render();
+    renderGantt();
+  });
 
   /* ================= Início ================= */
   (async () => {
     const [csv, mmd] = await Promise.all([load('divisao-tarefas.csv', 'csv-embed'), load('mermaid.mmd', 'mmd-embed')]);
+    Object.assign(SRC, { csv: csv.text, mmd: mmd.text });
+    EST.ia = store.get('estimativa-ia') === true;
     buildModel(csv.text, mmd.text);
     render();
     initGantt();

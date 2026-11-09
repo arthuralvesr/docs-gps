@@ -1,76 +1,118 @@
-Nome,Tempo (h),Dono
-Delimitar funcionalidades,4 h,Iago
-Registrar exclusões e restrições,4 h,Arthur
-Pesquisar soluções existentes,6 h,Arthur
-Identificar comandos de edição,6 h,Iago
-Comparar alternativas de integração,4 h,Arthur
-Documentar resultados,4 h,Iago
-Estudar documentação e APIs,6 h,Arthur
-Executar exemplo básico,6 h,Arthur
-Registrar recursos e limitações,4 h,Iago
-Levantar requisitos funcionais,6 h,Iago
-Definir requisitos não funcionais,4 h,Arthur
-Revisar e priorizar requisitos,2 h,Iago
-Identificar atores e casos,2 h,Iago
-Desenhar diagrama,4 h,Arthur
-Identificar módulos,4 h,Arthur
-Definir responsabilidades,4 h,Arthur
-Revisar dependências,2 h,Iago
-Desenhar wireframe,4 h,Iago
-Definir painéis e ferramentas,4 h,Iago
-Definir fluxo de interação,4 h,Arthur
-Definir estrutura da composição,4 h,Arthur
-Definir interface de integração,4 h,Arthur
-Documentar fluxo de dados,2 h,Iago
-Definir modelo de estado,4 h,Arthur
-Definir operações de alteração,4 h,Arthur
-Validar sincronização prevista,2 h,Iago
-Criar repositório e projeto,4 h,Arthur
-Instalar dependências e testar,4 h,Arthur
-Criar configuração de contêiner,4 h,Arthur
-Validar execução e documentar,2 h,Iago
-Criar estrutura do canvas,6 h,Iago
-Implementar layout responsivo,6 h,Iago
-Implementar área de prévia,6 h,Arthur
-Testar interação e layout,6 h,Iago
-Definir propriedades dos elementos,4 h,Arthur
-Implementar elemento de texto,6 h,Arthur
-Implementar elemento de imagem,6 h,Arthur
-Testar criação e seleção,4 h,Iago
-Implementar movimentação,6 h,Iago
-Implementar redimensionamento,6 h,Arthur
-Implementar rotação,4 h,Arthur
-Implementar controles de propriedades,4 h,Iago
-Definir comandos suportados,6 h,Iago
-Implementar entrada textual,4 h,Iago
-Implementar interpretação,8 h,Arthur
-Converter comandos em operações,6 h,Arthur
-Testar comandos e erros,6 h,Iago
-Converter estado em composição,6 h,Arthur
-Integrar prévia do Remotion,6 h,Arthur
-Implementar atualização da prévia,6 h,Arthur
-Testar renderização e exportação,6 h,Iago
-Preparar identificação e estrutura,4 h,Iago
-Redigir resumo e palavras-chave,4 h,Iago
-Redigir introdução,6 h,Iago
-Redigir justificativa e objetivos,6 h,Iago
-Redigir fundamentação teórica,8 h,Iago
-Descrever metodologia,6 h,Iago
-Documentar implementação,8 h,Arthur
-Redigir resultados e conclusão,6 h,Iago
-Organizar referências,6 h,Arthur
-Preparar apêndices e anexos,4 h,Iago
-Revisar coerência e linguagem,6 h,Iago
-Verificar citações e referências,4 h,Arthur
-Aplicar formatação institucional,4 h,Iago
-Conferir versão final,2 h,Arthur
-Executar testes finais,4 h,Arthur
-Corrigir falhas prioritárias,4 h,Arthur
-Limpar e organizar código,4 h,Arthur
-Preparar instruções de execução,4 h,Iago
-Validar entrega e arquivos,4 h,Arthur
-Preparar roteiro dos slides,4 h,Iago
-Montar slides,4 h,Iago
-Ensaiar demonstração,2 h,Arthur
-Apresentar e demonstrar,2 h,Iago
-Apresentar e responder à banca,2 h,Arthur
+Nome,Tempo (h),Dono,Com IA (h)
+Elaborar EAP e divisão de tarefas,4 h,Arthur,2 h
+Montar cronograma,2 h,Iago,1 h
+Reunir com o orientador no anteprojeto,2 h,Iago,2 h
+Delimitar funcionalidades,4 h,Iago,3 h
+Registrar exclusões e restrições,4 h,Arthur,3 h
+Pesquisar soluções existentes,6 h,Arthur,"3,5 h"
+Identificar comandos de edição,6 h,Iago,"4,5 h"
+Comparar provedores e modelos de IA,4 h,Arthur,"2,5 h"
+Estimar custo de uso da IA,4 h,Arthur,"2,5 h"
+Documentar resultados,4 h,Iago,3 h
+Comparar bibliotecas de canvas,4 h,Iago,"2,5 h"
+Estudar documentação e APIs,6 h,Arthur,"3,5 h"
+Executar exemplo de edição e exportação,6 h,Arthur,3 h
+Registrar recursos e limitações,4 h,Iago,"2,5 h"
+Levantar requisitos funcionais,6 h,Iago,"4,5 h"
+Definir requisitos não funcionais,4 h,Arthur,3 h
+Revisar e priorizar requisitos,2 h,Iago,"1,5 h"
+Identificar atores e casos,2 h,Iago,"1,5 h"
+Desenhar diagrama,4 h,Arthur,3 h
+Definir tarefas para os usuários,4 h,Iago,3 h
+Definir métricas de avaliação,2 h,Arthur,"1,5 h"
+Identificar módulos,4 h,Arthur,3 h
+Definir responsabilidades,4 h,Arthur,3 h
+Revisar dependências,2 h,Iago,"1,5 h"
+Desenhar wireframe,4 h,Iago,3 h
+Definir painéis e ferramentas,4 h,Iago,3 h
+Definir fluxo de interação,4 h,Arthur,3 h
+Definir estrutura das camadas,4 h,Arthur,3 h
+Definir estratégia de exportação,4 h,Arthur,3 h
+Documentar fluxo de dados,2 h,Iago,"1,5 h"
+Definir modelo de estado,4 h,Arthur,3 h
+Definir operações de alteração,4 h,Arthur,3 h
+Definir histórico de operações,2 h,Iago,"1,5 h"
+Validar sincronização prevista,2 h,Iago,"1,5 h"
+Definir ferramentas expostas à IA,4 h,Iago,3 h
+Definir servidor intermediário,4 h,Arthur,3 h
+Documentar fluxo dos comandos,2 h,Iago,"1,5 h"
+Reunir com o orientador no TCC I,4 h,Iago,4 h
+Atualizar cronograma do TCC I,2 h,Arthur,"1,5 h"
+Registrar decisões do projeto,2 h,Arthur,"1,5 h"
+Criar repositório e projeto,4 h,Arthur,2 h
+Instalar dependências e testar,4 h,Arthur,2 h
+Criar função do servidor intermediário,4 h,Arthur,2 h
+Configurar chave e limite de gastos,2 h,Arthur,1 h
+Validar chamada de teste à IA,2 h,Iago,"1,5 h"
+Criar estrutura do canvas,6 h,Iago,3 h
+Implementar layout responsivo,6 h,Iago,3 h
+Implementar área de prévia,6 h,Arthur,3 h
+Testar interação e layout,6 h,Iago,"4,5 h"
+Definir propriedades dos elementos,4 h,Arthur,3 h
+Implementar elemento de texto,6 h,Arthur,3 h
+Implementar elemento de imagem,6 h,Arthur,3 h
+Implementar elemento de forma,4 h,Iago,2 h
+Testar criação e seleção,4 h,Iago,3 h
+Implementar movimentação,6 h,Iago,3 h
+Implementar redimensionamento,6 h,Arthur,3 h
+Implementar rotação,4 h,Arthur,2 h
+Implementar excluir e duplicar,2 h,Iago,1 h
+Implementar ordem das camadas,2 h,Arthur,1 h
+Implementar controles de propriedades,4 h,Iago,2 h
+Implementar barra de ferramentas e atalhos,4 h,Iago,2 h
+Implementar ferramenta Mão e zoom,4 h,Iago,2 h
+Testar ferramentas,2 h,Iago,"1,5 h"
+Implementar registro de operações,4 h,Arthur,2 h
+Implementar desfazer e refazer,4 h,Iago,2 h
+Implementar comparação antes e depois,2 h,Iago,1 h
+Testar histórico,2 h,Arthur,"1,5 h"
+Implementar salvamento automático no navegador,2 h,Iago,1 h
+Implementar abrir e salvar arquivo do projeto,2 h,Arthur,1 h
+Testar salvar e abrir projeto,2 h,Iago,"1,5 h"
+Renderizar estado no canvas,6 h,Arthur,3 h
+Implementar atualização ao vivo da prévia,6 h,Arthur,3 h
+Implementar exportação da imagem,6 h,Iago,3 h
+Testar renderização e exportação,6 h,Iago,"4,5 h"
+Definir comandos suportados,6 h,Iago,"4,5 h"
+Implementar entrada textual,4 h,Iago,2 h
+Implementar interpretação,8 h,Arthur,4 h
+Converter comandos em operações,6 h,Arthur,3 h
+Registrar consumo de tokens,2 h,Arthur,1 h
+Testar comandos e erros,6 h,Iago,"4,5 h"
+Implementar histórico da conversa,2 h,Iago,1 h
+Exibir resposta da IA aos poucos,2 h,Arthur,1 h
+Implementar pedido à IA sobre o elemento selecionado,2 h,Iago,1 h
+Testar painel do assistente,2 h,Arthur,"1,5 h"
+Definir tipos de sugestão,2 h,Iago,"1,5 h"
+Gerar sugestões com a IA,6 h,Arthur,3 h
+Implementar painel de sugestões,4 h,Iago,2 h
+Testar sugestões,2 h,Iago,"1,5 h"
+Reunir com o orientador no TCC II,4 h,Arthur,4 h
+Registrar lições aprendidas,2 h,Iago,"1,5 h"
+Preparar identificação e estrutura,4 h,Iago,3 h
+Redigir resumo e palavras-chave,4 h,Iago,3 h
+Redigir introdução,6 h,Iago,"4,5 h"
+Redigir justificativa e objetivos,6 h,Iago,"4,5 h"
+Redigir fundamentação teórica,8 h,Iago,6 h
+Descrever metodologia,6 h,Iago,"4,5 h"
+Documentar implementação,8 h,Arthur,6 h
+Redigir resultados e conclusão,6 h,Iago,"4,5 h"
+Organizar referências,6 h,Arthur,3 h
+Preparar apêndices e anexos,4 h,Iago,3 h
+Revisar coerência e linguagem,6 h,Iago,3 h
+Verificar citações e referências,4 h,Arthur,4 h
+Aplicar formatação institucional,4 h,Iago,2 h
+Conferir versão final,2 h,Arthur,2 h
+Executar testes finais,4 h,Arthur,3 h
+Corrigir falhas prioritárias,4 h,Arthur,2 h
+Limpar e organizar código,4 h,Arthur,2 h
+Preparar instruções de execução,4 h,Iago,3 h
+Validar entrega e arquivos,4 h,Arthur,3 h
+Publicar editor e servidor intermediário,2 h,Arthur,1 h
+Limitar uso por pessoa,2 h,Arthur,1 h
+Testar a versão publicada,2 h,Iago,"1,5 h"
+Preparar roteiro dos slides,4 h,Iago,3 h
+Montar slides,4 h,Iago,2 h
+Ensaiar demonstração,2 h,Arthur,2 h
+Apresentar e demonstrar,2 h,Iago,2 h
+Apresentar e responder à banca,2 h,Arthur,2 h
